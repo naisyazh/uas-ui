@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>History Transaksi – EduFlow</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="navbar">
+  <a href="index.html" class="logo">EduFlow <span>BETA</span></a>
+  <nav class="main-nav" id="menu">
+    <a href="index.html">Beranda</a>
+    <a href="katalog-kursus.html">Kursus</a>
+    <a href="arsip-artikel.html">Artikel</a>
+  </nav>
+  <div class="navbar-right">
+    <a href="dashboard.html" class="btn-outline">Dashboard</a>
+    <a href="login.html" class="btn">Masuk</a>
+    <div class="menu-btn" onclick="toggleMenu()">☰</div>
+  </div>
+</header>
+
+<div class="page-header">
+  <div class="breadcrumb"><a href="index.html">Beranda</a> › <a href="dashboard.html">Dashboard</a> › History Transaksi</div>
+  <h1>🧾 History Transaksi</h1>
+  <p>Riwayat semua transaksi pembelian kursus kamu.</p>
+</div>
+
+<div class="page-body">
+
+  <!-- FILTER -->
+  <div class="search-bar">
+    <input type="text" placeholder="🔍  Cari transaksi..." oninput="filterTx(this.value)">
+    <select onchange="filterByStatus(this.value)">
+      <option value="">Semua Status</option>
+      <option value="Sukses">Sukses</option>
+      <option value="Pending">Pending</option>
+      <option value="Gagal">Gagal</option>
+    </select>
+    <select>
+      <option>Semua Waktu</option>
+      <option>Bulan Ini</option>
+      <option>3 Bulan Terakhir</option>
+      <option>Tahun Ini</option>
+    </select>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-grid" style="grid-template-columns:repeat(3,1fr)">
+    <div class="stat-card">
+      <div class="stat-icon" style="background:#dbeafe">💰</div>
+      <div><div class="stat-num">Rp 1.197.000</div><div class="stat-label">Total Pengeluaran</div></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon" style="background:#d1fae5">✅</div>
+      <div><div class="stat-num">4</div><div class="stat-label">Transaksi Sukses</div></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon" style="background:#fef3c7">📚</div>
+      <div><div class="stat-num">4</div><div class="stat-label">Kursus Dibeli</div></div>
+    </div>
+  </div>
+
+  <!-- TABLE -->
+  <div class="table-wrap">
+    <table id="txTable">
+      <thead>
+        <tr>
+          <th>ID Transaksi</th>
+          <th>Kursus</th>
+          <th>Tanggal</th>
+          <th>Metode</th>
+          <th>Total</th>
+          <th>Status</th>
+          <th>Aksi</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="tx-code">#TXN-2025041</span></td>
+          <td>
+            <div class="tx-item-cell">
+              <span class="tx-item-icon">🎨</span>
+              <div><p class="tx-item-name">UI/UX Design Bootcamp</p><p class="tx-item-sub">1 kursus</p></div>
+            </div>
+          </td>
+          <td class="tx-date">12 Apr 2025<span>14:32</span></td>
+          <td style="font-size:13px">🏦 Transfer BCA</td>
+          <td class="tx-amount-paid">Rp 299.000</td>
+          <td><span class="badge badge-green">Sukses</span></td>
+          <td><button class="btn btn-sm" onclick="showInvoice()">Invoice</button></td>
+        </tr>
+        <tr>
+          <td><span class="tx-code">#TXN-2025038</span></td>
+          <td>
+            <div class="tx-item-cell">
+              <span class="tx-item-icon">💻</span>
+              <div><p class="tx-item-name">Full-Stack Web Development</p><p class="tx-item-sub">1 kursus</p></div>
+            </div>
+          </td>
+          <td class="tx-date">8 Apr 2025<span>09:15</span></td>
+          <td style="font-size:13px">📱 GoPay</td>
+          <td class="tx-amount-paid">Rp 499.000</td>
+          <td><span class="badge badge-green">Sukses</span></td>
+          <td><button class="btn btn-sm" onclick="showInvoice()">Invoice</button></td>
+        </tr>
+        <tr>
+          <td><span class="tx-code">#TXN-2025031</span></td>
+          <td>
+            <div class="tx-item-cell">
+              <span class="tx-item-icon">📱</span>
+              <div><p class="tx-item-name">Flutter & Dart</p><p class="tx-item-sub">1 kursus</p></div>
+            </div>
+          </td>
+          <td class="tx-date">2 Apr 2025<span>16:45</span></td>
+          <td style="font-size:13px">💳 Kartu Kredit</td>
+          <td class="tx-amount-pending">Rp 399.000</td>
+          <td><span class="badge badge-yellow">Pending</span></td>
+          <td><button class="btn btn-sm" style="background:#f59e0b" onclick="showInvoice()">Cek Status</button></td>
+        </tr>
+        <tr>
+          <td><span class="tx-code">#TXN-2025022</span></td>
+          <td>
+            <div class="tx-item-cell">
+              <span class="tx-item-icon">📊</span>
+              <div><p class="tx-item-name">Python untuk Data Science</p><p class="tx-item-sub">1 kursus</p></div>
+            </div>
+          </td>
+          <td class="tx-date">22 Mar 2025<span>11:00</span></td>
+          <td style="font-size:13px">📷 QRIS</td>
+          <td class="tx-amount-free">GRATIS</td>
+          <td><span class="badge badge-green">Sukses</span></td>
+          <td><button class="btn btn-sm" onclick="showInvoice()">Invoice</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="pagination">
+    <a href="#" class="active">1</a>
+    <a href="#">2</a>
+    <a href="#">›</a>
+  </div>
+</div>
+
+<!-- INVOICE MODAL -->
+<div class="modal-overlay" id="invoiceModal">
+  <div class="modal">
+    <h3>🧾 Invoice #TXN-2025041</h3>
+    <div style="background:var(--bg);border-radius:10px;padding:16px;margin-bottom:16px">
+      <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px"><span style="color:var(--ink-4)">Tanggal</span><span>12 April 2025, 14:32</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px"><span style="color:var(--ink-4)">Pembeli</span><span>Ahmad Fauzi</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px"><span style="color:var(--ink-4)">Kursus</span><span>UI/UX Design Bootcamp</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px"><span style="color:var(--ink-4)">Metode</span><span>Transfer BCA</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:14px;font-weight:700;margin-top:10px;padding-top:10px;border-top:1px solid var(--line)"><span>Total</span><span style="color:var(--blue)">Rp 299.000</span></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-outline" onclick="closeModal('invoiceModal')">Tutup</button>
+      <button class="btn">⬇️ Unduh PDF</button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div><a href="index.html" class="logo" style="color:#fff;margin-bottom:10px;display:inline-flex">EduFlow</a><p>Platform belajar online terpercaya.</p></div>
+    <div><h3>Produk</h3><a href="katalog-kursus.html">Katalog Kursus</a></div>
+    <div><h3>Perusahaan</h3><a href="#">Kontak</a></div>
+    <div><h3>Dukungan</h3><a href="#">FAQ</a></div>
+  </div>
+  <p class="copy">© 2025 EduFlow. All rights reserved.</p>
+</footer>
+
+<script src="script.js"></script>
+<script>
+function showInvoice() { openModal('invoiceModal'); }
+function filterTx(q) {
+  document.querySelectorAll('#txTable tbody tr').forEach(r => {
+    r.style.display = r.textContent.toLowerCase().includes(q.toLowerCase()) ? '' : 'none';
+  });
+}
+function filterByStatus(s) {
+  document.querySelectorAll('#txTable tbody tr').forEach(r => {
+    r.style.display = (!s || r.textContent.includes(s)) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arsip Artikel – EduFlow</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="navbar">
+  <a href="index.html" class="logo">EduFlow <span>BETA</span></a>
+  <nav class="main-nav" id="menu">
+    <a href="index.html">Beranda</a>
+    <a href="katalog-kursus.html">Kursus</a>
+    <a href="arsip-artikel.html" class="active">Artikel</a>
+    <a href="index.html#kontak">Kontak</a>
+  </nav>
+  <div class="navbar-right">
+    <a href="dashboard.html" class="btn-outline">Dashboard</a>
+    <a href="login.html" class="btn">Masuk</a>
+    <div class="menu-btn" onclick="toggleMenu()">☰</div>
+  </div>
+</header>
+
+<div class="page-header">
+  <div class="breadcrumb"><a href="index.html">Beranda</a> › Artikel</div>
+  <h1>📰 Arsip Artikel</h1>
+  <p>Temukan artikel edukatif seputar teknologi, desain, dan pengembangan diri.</p>
+</div>
+
+<div class="page-body">
+
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="🔍  Cari artikel..." oninput="filterArticles()">
+    <select id="filterKategori" onchange="filterArticles()">
+      <option value="">Semua Kategori</option>
+      <option value="UI/UX">UI/UX</option>
+      <option value="Web Dev">Web Dev</option>
+      <option value="Data Science">Data Science</option>
+      <option value="Soft Skill">Soft Skill</option>
+    </select>
+    <select id="filterSort" onchange="filterArticles()">
+      <option value="terbaru">Terbaru</option>
+      <option value="terpopuler">Terpopuler</option>
+    </select>
+  </div>
+
+  <div class="grid-3" id="articleGrid">
+
+    <div class="card artikel-item" data-kategori="UI/UX">
+      <div class="card-img" style="background:linear-gradient(135deg,#dbeafe,#bfdbfe)">🎨</div>
+      <div class="card-body">
+        <span class="badge badge-blue">UI/UX</span>
+        <h3 style="font-size:15px;font-weight:700;margin:10px 0 8px;line-height:1.4">Prinsip Dasar Desain UI yang Harus Kamu Kuasai</h3>
+        <p style="font-size:13px;color:var(--ink-3);line-height:1.6;margin-bottom:12px">Pelajari prinsip-prinsip fundamental yang membuat antarmuka pengguna menjadi intuitif dan menarik.</p>
+        <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--ink-4);margin-bottom:14px">
+          <span>👤 Rina Kartika</span><span>📅 12 Apr 2025</span>
+        </div>
+        <a href="detail-artikel.html" class="btn btn-sm">Baca Selengkapnya</a>
+      </div>
+    </div>
+
+    <div class="card artikel-item" data-kategori="Web Dev">
+      <div class="card-img" style="background:linear-gradient(135deg,#d1fae5,#a7f3d0)">💻</div>
+      <div class="card-body">
+        <span class="badge badge-green">Web Dev</span>
+        <h3 style="font-size:15px;font-weight:700;margin:10px 0 8px;line-height:1.4">Mengenal Framework CSS Modern: Tailwind vs Bootstrap</h3>
+        <p style="font-size:13px;color:var(--ink-3);line-height:1.6;margin-bottom:12px">Perbandingan mendalam antara dua framework CSS terpopuler untuk membantu kamu memilih yang tepat.</p>
+        <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--ink-4);margin-bottom:14px">
+          <span>👤 Budi Santoso</span><span>📅 10 Apr 2025</span>
+        </div>
+        <a href="detail-artikel.html" class="btn btn-sm">Baca Selengkapnya</a>
+      </div>
+    </div>
+
+    <div class="card artikel-item" data-kategori="Data Science">
+      <div class="card-img" style="background:linear-gradient(135deg,#fef3c7,#fde68a)">📊</div>
+      <div class="card-body">
+        <span class="badge badge-yellow">Data Science</span>
+        <h3 style="font-size:15px;font-weight:700;margin:10px 0 8px;line-height:1.4">Visualisasi Data dengan Python: Panduan Pemula</h3>
+        <p style="font-size:13px;color:var(--ink-3);line-height:1.6;margin-bottom:12px">Mulai perjalanan data science kamu dengan mempelajari cara membuat visualisasi data yang informatif.</p>
+        <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--ink-4);margin-bottom:14px">
+          <span>👤 Dita Pramesti</span><span>📅 8 Apr 2025</span>
+        </div>
+        <a href="detail-artikel.html" class="btn btn-sm">Baca Selengkapnya</a>
+      </div>
+    </div>
+
+    <div class="card artikel-item" data-kategori="Soft Skill">
+      <div class="card-img" style="background:linear-gradient(135deg,#fce7f3,#fbcfe8)">🧠</div>
+      <div class="card-body">
+        <span class="badge badge-purple">Soft Skill</span>
+        <h3 style="font-size:15px;font-weight:700;margin:10px 0 8px;line-height:1.4">Teknik Belajar Efektif untuk Mahasiswa Teknologi</h3>
+        <p style="font-size:13px;color:var(--ink-3);line-height:1.6;margin-bottom:12px">Strategi belajar yang terbukti efektif untuk memahami materi teknis dengan lebih cepat dan mudah.</p>
+        <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--ink-4);margin-bottom:14px">
+          <span>👤 Agus Wijaya</span><span>📅 5 Apr 2025</span>
+        </div>
+        <a href="detail-artikel.html" class="btn btn-sm">Baca Selengkapnya</a>
+      </div>
+    </div>
+
+    <div class="card artikel-item" data-kategori="Web Dev">
+      <div class="card-img" style="background:linear-gradient(135deg,#e0e7ff,#c7d2fe)">🚀</div>
+      <div class="card-body">
+        <span class="badge badge-blue">Web Dev</span>
+        <h3 style="font-size:15px;font-weight:700;margin:10px 0 8px;line-height:1.4">REST API vs GraphQL: Mana yang Lebih Baik?</h3>
+        <p style="font-size:13px;color:var(--ink-3);line-height:1.6;margin-bottom:12px">Analisis komprehensif perbedaan REST API dan GraphQL beserta kapan harus menggunakan masing-masing.</p>
+        <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--ink-4);margin-bottom:14px">
+          <span>👤 Fajar Nugraha</span><span>📅 3 Apr 2025</span>
+        </div>
+        <a href="detail-artikel.html" class="btn btn-sm">Baca Selengkapnya</a>
+      </div>
+    </div>
+
+    <div class="card artikel-item" data-kategori="UI/UX">
+      <div class="card-img" style="background:linear-gradient(135deg,#ede9fe,#ddd6fe)">✏️</div>
+      <div class="card-body">
+        <span class="badge badge-blue">UI/UX</span>
+        <h3 style="font-size:15px;font-weight:700;margin:10px 0 8px;line-height:1.4">User Research: Kenapa Penting Sebelum Desain?</h3>
+        <p style="font-size:13px;color:var(--ink-3);line-height:1.6;margin-bottom:12px">Pahami mengapa riset pengguna adalah fondasi penting sebelum memulai proses desain produk digital.</p>
+        <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--ink-4);margin-bottom:14px">
+          <span>👤 Sinta Dewi</span><span>📅 1 Apr 2025</span>
+        </div>
+        <a href="detail-artikel.html" class="btn btn-sm">Baca Selengkapnya</a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="pagination">
+    <a href="#" class="active">1</a>
+    <a href="#">2</a>
+    <a href="#">3</a>
+    <a href="#">›</a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div><a href="index.html" class="logo" style="color:#fff;font-size:20px;margin-bottom:10px;display:inline-flex">EduFlow</a><p>Platform belajar online terpercaya untuk generasi digital Indonesia.</p></div>
+    <div><h3>Produk</h3><a href="katalog-kursus.html">Katalog Kursus</a><a href="arsip-artikel.html">Artikel</a></div>
+    <div><h3>Perusahaan</h3><a href="#">Tentang Kami</a><a href="#">Kontak</a></div>
+    <div><h3>Dukungan</h3><a href="#">Pusat Bantuan</a><a href="#">FAQ</a></div>
+  </div>
+  <p class="copy">© 2025 EduFlow. All rights reserved.</p>
+</footer>
+
+<script src="script.js"></script>
+<script>
+function filterArticles() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  const kat = document.getElementById('filterKategori').value;
+  document.querySelectorAll('.artikel-item').forEach(el => {
+    const title = el.querySelector('h3').textContent.toLowerCase();
+    const k = el.dataset.kategori;
+    el.style.display = (title.includes(q) && (kat === '' || k === kat)) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kelola Pengguna – EduFlow Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="navbar">
+  <a href="index.html" class="logo">EduFlow <span>ADMIN</span></a>
+  <div class="navbar-right">
+    <div class="avatar">AF</div>
+    <button class="btn-ghost" onclick="doLogout()" style="font-size:13px;color:var(--ink-3)">Keluar</button>
+    <div class="menu-btn" onclick="toggleMenu()">☰</div>
+  </div>
+</header>
+
+<div class="admin-layout">
+
+  <aside class="admin-sidebar">
+    <div class="nav-section">Menu Utama</div>
+    <a href="dashboard.html">🏠 Dashboard</a>
+    <a href="katalog-kursus.html">📚 Katalog Kursus</a>
+    <a href="arsip-artikel.html">📰 Arsip Artikel</a>
+
+    <div class="nav-section">Kelola</div>
+    <a href="admin-artikel.html">✏️ Kelola Artikel</a>
+    <a href="admin-produk.html">📦 Kelola Produk</a>
+    <a href="admin-pengguna.html" class="active">👥 Kelola Pengguna</a>
+    <a href="admin-transaksi.html">💳 Kelola Transaksi</a>
+  </aside>
+
+  <main class="admin-main">
+
+    <div class="flex-between" style="margin-bottom:24px">
+      <div>
+        <h1 style="font-size:22px;font-weight:800">👥 Kelola Pengguna</h1>
+        <p style="font-size:14px;color:var(--ink-4);margin-top:2px">Manajemen akun pengguna platform</p>
+      </div>
+      <button class="btn" onclick="openModal('modalTambah')">+ Tambah Pengguna</button>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-grid" style="grid-template-columns:repeat(4,1fr);margin-bottom:24px">
+      <div class="stat-card">
+        <div class="stat-icon" style="background:var(--blue-mid)">👥</div>
+        <div><div class="stat-num">10.482</div><div class="stat-label">Total Pengguna</div></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background:var(--green-light)">✅</div>
+        <div><div class="stat-num">9.840</div><div class="stat-label">Aktif</div></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background:#fef3c7">🆕</div>
+        <div><div class="stat-num">240</div><div class="stat-label">Baru Bulan Ini</div></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background:var(--red-light)">🚫</div>
+        <div><div class="stat-num">12</div><div class="stat-label">Diblokir</div></div>
+      </div>
+    </div>
+
+    <!-- SEARCH -->
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="🔍  Cari pengguna..." oninput="filterTable()">
+      <select id="filterRole" onchange="filterTable()">
+        <option value="">Semua Role</option>
+        <option value="Pelajar">Pelajar</option>
+        <option value="Instruktur">Instruktur</option>
+        <option value="Admin">Admin</option>
+      </select>
+      <select id="filterStatus" onchange="filterTable()">
+        <option value="">Semua Status</option>
+        <option value="Aktif">Aktif</option>
+        <option value="Diblokir">Diblokir</option>
+      </select>
+    </div>
+
+    <!-- TABLE -->
+    <div class="table-wrap">
+      <table id="penggunaTable">
+        <thead>
+          <tr>
+            <th>Pengguna</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Kursus</th>
+            <th>Bergabung</th>
+            <th>Status</th>
+            <th>Aksi</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><div style="display:flex;align-items:center;gap:10px"><div class="avatar" style="background:var(--blue-mid);font-size:13px">AF</div><strong style="font-size:13px">Ahmad Fauzi</strong></div></td>
+            <td style="font-size:13px;color:var(--ink-4)">ahmad@email.com</td>
+            <td><span class="badge badge-blue">Pelajar</span></td>
+            <td style="font-size:13px">4</td>
+            <td style="font-size:13px;color:var(--ink-4)">1 Jan 2025</td>
+            <td><span class="badge badge-green">Aktif</span></td>
+            <td><div style="display:flex;gap:6px">
+              <button class="btn btn-sm" onclick="editPengguna(this)">Edit</button>
+              <button class="btn btn-sm btn-danger" onclick="hapusRow(this)">Hapus</button>
+            </div></td>
+          </tr>
+          <tr>
+            <td><div style="display:flex;align-items:center;gap:10px"><div class="avatar" style="background:#d1fae5;color:var(--green);font-size:13px">RK</div><strong style="font-size:13px">Rina Kartika</strong></div></td>
+            <td style="font-size:13px;color:var(--ink-4)">rina@email.com</td>
+            <td><span class="badge badge-purple">Instruktur</span></td>
+            <td style="font-size:13px">–</td>
+            <td style="font-size:13px;color:var(--ink-4)">15 Des 2024</td>
+            <td><span class="badge badge-green">Aktif</span></td>
+            <td><div style="display:flex;gap:6px">
+              <button class="btn btn-sm" onclick="editPengguna(this)">Edit</button>
+              <button class="btn btn-sm btn-danger" onclick="hapusRow(this)">Hapus</button>
+            </div></td>
+          </tr>
+          <tr>
+            <td><div style="display:flex;align-items:center;gap:10px"><div class="avatar" style="background:#fef3c7;color:var(--yellow);font-size:13px">SI</div><strong style="font-size:13px">Sari Indah</strong></div></td>
+            <td style="font-size:13px;color:var(--ink-4)">sari@email.com</td>
+            <td><span class="badge badge-blue">Pelajar</span></td>
+            <td style="font-size:13px">2</td>
+            <td style="font-size:13px;color:var(--ink-4)">5 Feb 2025</td>
+            <td><span class="badge badge-green">Aktif</span></td>
+            <td><div style="display:flex;gap:6px">
+              <button class="btn btn-sm" onclick="editPengguna(this)">Edit</button>
+              <button class="btn btn-sm btn-danger" onclick="hapusRow(this)">Hapus</button>
+            </div></td>
+          </tr>
+          <tr>
+            <td><div style="display:flex;align-items:center;gap:10px"><div class="avatar" style="background:#fce7f3;color:#db2777;font-size:13px">RP</div><strong style="font-size:13px">Rendra Putra</strong></div></td>
+            <td style="font-size:13px;color:var(--ink-4)">rendra@email.com</td>
+            <td><span class="badge badge-blue">Pelajar</span></td>
+            <td style="font-size:13px">1</td>
+            <td style="font-size:13px;color:var(--ink-4)">20 Mar 2025</td>
+            <td><span class="badge badge-red">Diblokir</span></td>
+            <td><div style="display:flex;gap:6px">
+              <button class="btn btn-sm" onclick="editPengguna(this)">Edit</button>
+              <button class="btn btn-sm btn-danger" onclick="hapusRow(this)">Hapus</button>
+            </div></td>
+          </tr>
+          <tr>
+            <td><div style="display:flex;align-items:center;gap:10px"><div class="avatar" style="background:#ede9fe;color:#7c3aed;font-size:13px">BS</div><strong style="font-size:13px">Budi Santoso</strong></div></td>
+            <td style="font-size:13px;color:var(--ink-4)">budi@email.com</td>
+            <td><span class="badge badge-purple">Instruktur</span></td>
+            <td style="font-size:13px">–</td>
+            <td style="font-size:13px;color:var(--ink-4)">10 Nov 2024</td>
+            <td><span class="badge badge-green">Aktif</span></td>
+            <td><div style="display:flex;gap:6px">
+              <button class="btn btn-sm" onclick="editPengguna(this)">Edit</button>
+              <button class="btn btn-sm btn-danger" onclick="hapusRow(this)">Hapus</button>
+            </div></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="pagination">
+      <a href="#" class="active">1</a><a href="#">2</a><a href="#">3</a><a href="#">›</a>
+    </div>
+
+  </main>
+</div>
+
+<!-- MODAL TAMBAH / EDIT -->
+<div class="modal-overlay" id="modalTambah">
+  <div class="modal" style="max-width:480px">
+    <h3 id="modalTitle">➕ Tambah Pengguna</h3>
+    <div class="grid-2">
+      <div class="form-group">
+        <label>Nama Lengkap</label>
+        <input type="text" id="inputNama" placeholder="Nama pengguna">
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" id="inputEmail" placeholder="email@domain.com">
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="form-group">
+        <label>Role</label>
+        <select id="inputRole">
+          <option>Pelajar</option>
+          <option>Instruktur</option>
+          <option>Admin</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Status</label>
+        <select id="inputStatus">
+          <option>Aktif</option>
+          <option>Diblokir</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="inputPass" placeholder="Password baru">
+    </div>
+    <div class="modal-footer">
+      <button class="btn-outline-gray" onclick="closeModal('modalTambah')">Batal</button>
+      <button class="btn" onclick="simpanPengguna()">Simpan</button>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+<script>
+let editRow = null;
+
+function filterTable() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  const role = document.getElementById('filterRole').value;
+  const status = document.getElementById('filterStatus').value;
+  document.querySelectorAll('#penggunaTable tbody tr').forEach(tr => {
+    const nama = tr.cells[0].textContent.toLowerCase();
+    const r = tr.cells[2].textContent.trim();
+    const s = tr.cells[5].textContent.trim();
+    tr.style.display = (nama.includes(q) && (!role || r.includes(role)) && (!status || s.includes(status))) ? '' : 'none';
+  });
+}
+
+function editPengguna(btn) {
+  editRow = btn.closest('tr');
+  const cells = editRow.cells;
+  document.getElementById('modalTitle').textContent = '✏️ Edit Pengguna';
+  document.getElementById('inputNama').value = cells[0].querySelector('strong').textContent;
+  document.getElementById('inputEmail').value = cells[1].textContent.trim();
+  document.getElementById('inputRole').value = cells[2].textContent.trim();
+  document.getElementById('inputStatus').value = cells[5].textContent.trim();
+  openModal('modalTambah');
+}
+
+function simpanPengguna() {
+  const nama = document.getElementById('inputNama').value.trim();
+  const email = document.getElementById('inputEmail').value.trim();
+  const role = document.getElementById('inputRole').value;
+  const status = document.getElementById('inputStatus').value;
+  if (!nama || !email) { showToast('Nama dan email wajib diisi', 'error'); return; }
+
+  const roleBadge = { 'Pelajar':'badge-blue','Instruktur':'badge-purple','Admin':'badge-red' };
+  const statusBadge = status === 'Aktif' ? 'badge-green' : 'badge-red';
+  const initials = nama.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
+  const today = new Date().toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'});
+
+  if (editRow) {
+    editRow.cells[0].querySelector('strong').textContent = nama;
+    editRow.cells[1].textContent = email;
+    editRow.cells[2].innerHTML = `<span class="badge ${roleBadge[role]||'badge-gray'}">${role}</span>`;
+    editRow.cells[5].innerHTML = `<span class="badge ${statusBadge}">${status}</span>`;
+    editRow = null;
+    showToast('Pengguna berhasil diperbarui');
+  } else {
+    const tbody = document.querySelector('#penggunaTable tbody');
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><div style="display:flex;align-items:center;gap:10px"><div class="avatar" style="font-size:13px">${initials}</div><strong style="font-size:13px">${nama}</strong></div></td>
+      <td style="font-size:13px;color:var(--ink-4)">${email}</td>
+      <td><span class="badge ${roleBadge[role]||'badge-gray'}">${role}</span></td>
+      <td style="font-size:13px">0</td>
+      <td style="font-size:13px;color:var(--ink-4)">${today}</td>
+      <td><span class="badge ${statusBadge}">${status}</span></td>
+      <td><div style="display:flex;gap:6px">
+        <button class="btn btn-sm" onclick="editPengguna(this)">Edit</button>
+        <button class="btn btn-sm btn-danger" onclick="hapusRow(this)">Hapus</button>
+      </div></td>`;
+    tbody.prepend(tr);
+    showToast('Pengguna berhasil ditambahkan');
+  }
+
+  document.getElementById('inputNama').value = '';
+  document.getElementById('inputEmail').value = '';
+  document.getElementById('inputPass').value = '';
+  document.getElementById('modalTitle').textContent = '➕ Tambah Pengguna';
+  closeModal('modalTambah');
+}
+
+function hapusRow(btn) {
+  if (!confirm('Hapus pengguna ini?')) return;
+  btn.closest('tr').remove();
+  showToast('Pengguna dihapus', 'error');
+}
+</script>
+</body>
+</html>

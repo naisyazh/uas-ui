@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kelola Transaksi – EduFlow Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="navbar">
+  <a href="index.html" class="logo">EduFlow <span>ADMIN</span></a>
+  <div class="navbar-right">
+    <div class="avatar">AF</div>
+    <button class="btn-ghost" onclick="doLogout()" style="font-size:13px;color:var(--ink-3)">Keluar</button>
+    <div class="menu-btn" onclick="toggleMenu()">☰</div>
+  </div>
+</header>
+
+<div class="admin-layout">
+
+  <aside class="admin-sidebar">
+    <div class="nav-section">Menu Utama</div>
+    <a href="dashboard.html">🏠 Dashboard</a>
+    <a href="katalog-kursus.html">📚 Katalog Kursus</a>
+    <a href="arsip-artikel.html">📰 Arsip Artikel</a>
+
+    <div class="nav-section">Kelola</div>
+    <a href="admin-artikel.html">✏️ Kelola Artikel</a>
+    <a href="admin-produk.html">📦 Kelola Produk</a>
+    <a href="admin-pengguna.html">👥 Kelola Pengguna</a>
+    <a href="admin-transaksi.html" class="active">💳 Kelola Transaksi</a>
+  </aside>
+
+  <main class="admin-main">
+
+    <div class="flex-between" style="margin-bottom:24px">
+      <div>
+        <h1 style="font-size:22px;font-weight:800">💳 Kelola Transaksi</h1>
+        <p style="font-size:14px;color:var(--ink-4);margin-top:2px">Monitor dan kelola semua transaksi pembayaran</p>
+      </div>
+      <div style="display:flex;gap:10px">
+        <button class="btn-outline-gray" onclick="exportData()">⬇️ Export CSV</button>
+      </div>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-grid" style="grid-template-columns:repeat(4,1fr);margin-bottom:24px">
+      <div class="stat-card">
+        <div class="stat-icon" style="background:var(--blue-mid)">💰</div>
+        <div><div class="stat-num">Rp 48,2jt</div><div class="stat-label">Total Pendapatan</div></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background:var(--green-light)">✅</div>
+        <div><div class="stat-num">312</div><div class="stat-label">Transaksi Sukses</div></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background:#fef3c7">⏳</div>
+        <div><div class="stat-num">8</div><div class="stat-label">Pending</div></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background:var(--red-light)">❌</div>
+        <div><div class="stat-num">3</div><div class="stat-label">Gagal</div></div>
+      </div>
+    </div>
+
+    <!-- SEARCH -->
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="🔍  Cari ID / nama pengguna..." oninput="filterTable()">
+      <select id="filterStatus" onchange="filterTable()">
+        <option value="">Semua Status</option>
+        <option value="Sukses">Sukses</option>
+        <option value="Pending">Pending</option>
+        <option value="Gagal">Gagal</option>
+      </select>
+      <select id="filterMetode" onchange="filterTable()">
+        <option value="">Semua Metode</option>
+        <option value="Transfer">Transfer Bank</option>
+        <option value="GoPay">GoPay</option>
+        <option value="Kartu">Kartu Kredit</option>
+        <option value="QRIS">QRIS</option>
+      </select>
+    </div>
+
+    <!-- TABLE -->
+    <div class="table-wrap">
+      <table id="txTable">
+        <thead>
+          <tr>
+            <th>ID Transaksi</th>
+            <th>Pengguna</th>
+            <th>Kursus</th>
+            <th>Metode</th>
+            <th>Total</th>
+            <th>Tanggal</th>
+            <th>Status</th>
+            <th>Aksi</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="tx-code">#TXN-2025041</span></td>
+            <td style="font-size:13px;font-weight:500">Ahmad Fauzi</td>
+            <td><div style="display:flex;align-items:center;gap:8px"><span>🎨</span><span style="font-size:13px">UI/UX Design Bootcamp</span></div></td>
+            <td style="font-size:13px">🏦 Transfer BCA</td>
+            <td style="font-weight:700;color:var(--blue)">Rp 299.000</td>
+            <td style="font-size:13px;color:var(--ink-4)">12 Apr 2025</td>
+            <td><span class="badge badge-green">Sukses</span></td>
+            <td><div style="display:flex;gap:6px">
+              <button class="btn btn-sm" onclick="lihatDetail(this)">Detail</button>
+              <button class="btn btn-sm btn-danger" onclick="hapusRow(this)">Hapus</button>
+            </div></td>
+          </tr>
+          <tr>
+            <td><span class="tx-code">#TXN-2025038</span></td>
+            <td style="font-size:13px;font-weight:500">Sari Indah</td>
+            <td><div style="display:flex;align-items:center;gap:8px"><span>💻</span><span style="font-size:13px">Full-Stack Web Development</span></div></td>
+            <td style="font-size:13px">📱 GoPay</td>
+            <td style="font-weight:700;color:var(--blue)">Rp 499.000</td>
+            <td style="font-size:13px;color:var(--ink-4)">8 Apr 2025</td>
+            <td><span class="badge badge-green">Sukses</span></td>
+            <td><div style="display:flex;gap:6px">
+              <button class="btn btn-sm" onclick="lihatDetail(this)">Detail</button>
+              <button class="btn btn-sm btn-danger" onclick="hapusRow(this)">Hapus</button>
+            </div></td>
+          </tr>
+          <tr>
+            <td><span class="tx-code">#TXN-2025031</span></td>
+            <td style="font-size:13px;font-weight:500">Rendra Putra</td>
+            <td><div style="display:flex;align-items:center;gap:8px"><span>📱</span><span style="font-size:13px">Flutter & Dart</span></div></td>
+            <td style="font-size:13px">💳 Kartu Kredit</td>
+            <td style="font-weight:700;color:#f59e0b">Rp 399.000</td>
+            <td style="font-size:13px;color:var(--ink-4)">2 Apr 2025</td>
+            <td><span class="badge badge-yellow">Pending</span></td>
+            <td><div style="display:flex;gap:6px">
+              <button class="btn btn-sm btn-success" onclick="konfirmasi(this)">Konfirmasi</button>
+              <button class="btn btn-sm btn-danger" onclick="hapusRow(this)">Hapus</button>
+            </div></td>
+          </tr>
+          <tr>
+            <td><span class="tx-code">#TXN-2025022</span></td>
+            <td style="font-size:13px;font-weight:500">Ahmad Fauzi</td>
+            <td><div style="display:flex;align-items:center;gap:8px"><span>📊</span><span style="font-size:13px">Python untuk Data Science</span></div></td>
+            <td style="font-size:13px">📷 QRIS</td>
+            <td style="font-weight:700;color:var(--green)">GRATIS</td>
+            <td style="font-size:13px;color:var(--ink-4)">22 Mar 2025</td>
+            <td><span class="badge badge-green">Sukses</span></td>
+            <td><div style="display:flex;gap:6px">
+              <button class="btn btn-sm" onclick="lihatDetail(this)">Detail</button>
+              <button class="btn btn-sm btn-danger" onclick="hapusRow(this)">Hapus</button>
+            </div></td>
+          </tr>
+          <tr>
+            <td><span class="tx-code">#TXN-2025018</span></td>
+            <td style="font-size:13px;font-weight:500">Budi Santoso</td>
+            <td><div style="display:flex;align-items:center;gap:8px"><span>🧠</span><span style="font-size:13px">Public Speaking</span></div></td>
+            <td style="font-size:13px">🏦 Transfer BNI</td>
+            <td style="font-weight:700;color:var(--red)">Rp 199.000</td>
+            <td style="font-size:13px;color:var(--ink-4)">15 Mar 2025</td>
+            <td><span class="badge badge-red">Gagal</span></td>
+            <td><div style="display:flex;gap:6px">
+              <button class="btn btn-sm" onclick="lihatDetail(this)">Detail</button>
+              <button class="btn btn-sm btn-danger" onclick="hapusRow(this)">Hapus</button>
+            </div></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="pagination">
+      <a href="#" class="active">1</a><a href="#">2</a><a href="#">3</a><a href="#">›</a>
+    </div>
+
+  </main>
+</div>
+
+<!-- MODAL DETAIL -->
+<div class="modal-overlay" id="modalDetail">
+  <div class="modal" style="max-width:480px">
+    <h3>🧾 Detail Transaksi</h3>
+    <div style="background:var(--bg);border-radius:var(--radius);padding:16px;margin-bottom:16px" id="detailContent">
+    </div>
+    <div class="form-group">
+      <label>Ubah Status</label>
+      <select id="ubahStatus">
+        <option>Sukses</option>
+        <option>Pending</option>
+        <option>Gagal</option>
+      </select>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-outline-gray" onclick="closeModal('modalDetail')">Tutup</button>
+      <button class="btn" onclick="simpanStatus()">Simpan Status</button>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+<script>
+let activeRow = null;
+
+function filterTable() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  const status = document.getElementById('filterStatus').value;
+  const metode = document.getElementById('filterMetode').value;
+  document.querySelectorAll('#txTable tbody tr').forEach(tr => {
+    const text = tr.textContent.toLowerCase();
+    const s = tr.cells[6].textContent.trim();
+    const m = tr.cells[3].textContent.trim();
+    tr.style.display = (text.includes(q) && (!status || s.includes(status)) && (!metode || m.includes(metode))) ? '' : 'none';
+  });
+}
+
+function lihatDetail(btn) {
+  activeRow = btn.closest('tr');
+  const cells = activeRow.cells;
+  document.getElementById('detailContent').innerHTML = `
+    <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:8px"><span style="color:var(--ink-4)">ID Transaksi</span><strong>${cells[0].textContent.trim()}</strong></div>
+    <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:8px"><span style="color:var(--ink-4)">Pengguna</span><span>${cells[1].textContent.trim()}</span></div>
+    <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:8px"><span style="color:var(--ink-4)">Kursus</span><span>${cells[2].textContent.trim()}</span></div>
+    <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:8px"><span style="color:var(--ink-4)">Metode</span><span>${cells[3].textContent.trim()}</span></div>
+    <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:8px"><span style="color:var(--ink-4)">Tanggal</span><span>${cells[5].textContent.trim()}</span></div>
+    <div style="display:flex;justify-content:space-between;font-size:14px;font-weight:700;padding-top:10px;border-top:1px solid var(--line)"><span>Total</span><span>${cells[4].textContent.trim()}</span></div>`;
+  document.getElementById('ubahStatus').value = cells[6].textContent.trim();
+  openModal('modalDetail');
+}
+
+function konfirmasi(btn) {
+  const tr = btn.closest('tr');
+  tr.cells[6].innerHTML = '<span class="badge badge-green">Sukses</span>';
+  btn.closest('td').innerHTML = `<div style="display:flex;gap:6px">
+    <button class="btn btn-sm" onclick="lihatDetail(this)">Detail</button>
+    <button class="btn btn-sm btn-danger" onclick="hapusRow(this)">Hapus</button>
+  </div>`;
+  showToast('Transaksi dikonfirmasi sebagai Sukses');
+}
+
+function simpanStatus() {
+  if (!activeRow) return;
+  const status = document.getElementById('ubahStatus').value;
+  const badge = { 'Sukses':'badge-green','Pending':'badge-yellow','Gagal':'badge-red' };
+  activeRow.cells[6].innerHTML = `<span class="badge ${badge[status]}">${status}</span>`;
+  closeModal('modalDetail');
+  showToast('Status transaksi diperbarui');
+}
+
+function hapusRow(btn) {
+  if (!confirm('Hapus transaksi ini?')) return;
+  btn.closest('tr').remove();
+  showToast('Transaksi dihapus', 'error');
+}
+
+function exportData() {
+  showToast('Export CSV sedang diproses...');
+}
+</script>
+</body>
+</html>

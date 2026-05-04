@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kelola Artikel – EduFlow Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="navbar">
+  <a href="index.html" class="logo">EduFlow <span>ADMIN</span></a>
+  <div class="navbar-right">
+    <div class="avatar">AF</div>
+    <button class="btn-ghost" onclick="doLogout()" style="font-size:13px;color:var(--ink-3)">Keluar</button>
+    <div class="menu-btn" onclick="toggleMenu()">☰</div>
+  </div>
+</header>
+
+<div class="admin-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="admin-sidebar">
+    <div class="nav-section">Menu Utama</div>
+    <a href="dashboard.html">🏠 Dashboard</a>
+    <a href="katalog-kursus.html">📚 Katalog Kursus</a>
+    <a href="arsip-artikel.html">📰 Arsip Artikel</a>
+
+    <div class="nav-section">Kelola</div>
+    <a href="admin-artikel.html" class="active">✏️ Kelola Artikel</a>
+    <a href="admin-produk.html">📦 Kelola Produk</a>
+    <a href="admin-pengguna.html">👥 Kelola Pengguna</a>
+    <a href="admin-transaksi.html">💳 Kelola Transaksi</a>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="admin-main">
+
+    <div class="flex-between" style="margin-bottom:24px">
+      <div>
+        <h1 style="font-size:22px;font-weight:800">✏️ Kelola Artikel</h1>
+        <p style="font-size:14px;color:var(--ink-4);margin-top:2px">Tambah, edit, dan hapus artikel edukatif</p>
+      </div>
+      <button class="btn" onclick="openModal('modalTambah')">+ Tambah Artikel</button>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-grid" style="grid-template-columns:repeat(3,1fr);margin-bottom:24px">
+      <div class="stat-card">
+        <div class="stat-icon" style="background:var(--blue-mid)">📰</div>
+        <div><div class="stat-num">24</div><div class="stat-label">Total Artikel</div></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background:var(--green-light)">✅</div>
+        <div><div class="stat-num">18</div><div class="stat-label">Dipublikasi</div></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background:#fef3c7">📝</div>
+        <div><div class="stat-num">6</div><div class="stat-label">Draft</div></div>
+      </div>
+    </div>
+
+    <!-- SEARCH -->
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="🔍  Cari artikel..." oninput="filterTable()">
+      <select id="filterKat" onchange="filterTable()">
+        <option value="">Semua Kategori</option>
+        <option value="UI/UX">UI/UX</option>
+        <option value="Web Dev">Web Dev</option>
+        <option value="Data Science">Data Science</option>
+        <option value="Soft Skill">Soft Skill</option>
+      </select>
+      <select id="filterStatus" onchange="filterTable()">
+        <option value="">Semua Status</option>
+        <option value="Publikasi">Publikasi</option>
+        <option value="Draft">Draft</option>
+      </select>
+    </div>
+
+    <!-- TABLE -->
+    <div class="table-wrap">
+      <table id="artikelTable">
+        <thead>
+          <tr>
+            <th>Judul</th>
+            <th>Kategori</th>
+            <th>Penulis</th>
+            <th>Tanggal</th>
+            <th>Views</th>
+            <th>Status</th>
+            <th>Aksi</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong style="font-size:13px">Prinsip Dasar Desain UI yang Harus Kamu Kuasai</strong></td>
+            <td><span class="badge badge-blue">UI/UX</span></td>
+            <td style="font-size:13px">Rina Kartika</td>
+            <td style="font-size:13px;color:var(--ink-4)">12 Apr 2025</td>
+            <td style="font-size:13px">1.240</td>
+            <td><span class="badge badge-green">Publikasi</span></td>
+            <td>
+              <div style="display:flex;gap:6px">
+                <button class="btn btn-sm" onclick="editArtikel(this)">Edit</button>
+                <button class="btn btn-sm btn-danger" onclick="hapusRow(this)">Hapus</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><strong style="font-size:13px">Mengenal Framework CSS Modern: Tailwind vs Bootstrap</strong></td>
+            <td><span class="badge badge-green">Web Dev</span></td>
+            <td style="font-size:13px">Budi Santoso</td>
+            <td style="font-size:13px;color:var(--ink-4)">10 Apr 2025</td>
+            <td style="font-size:13px">980</td>
+            <td><span class="badge badge-green">Publikasi</span></td>
+            <td>
+              <div style="display:flex;gap:6px">
+                <button class="btn btn-sm" onclick="editArtikel(this)">Edit</button>
+                <button class="btn btn-sm btn-danger" onclick="hapusRow(this)">Hapus</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><strong style="font-size:13px">Visualisasi Data dengan Python: Panduan Pemula</strong></td>
+            <td><span class="badge badge-yellow">Data Science</span></td>
+            <td style="font-size:13px">Dita Pramesti</td>
+            <td style="font-size:13px;color:var(--ink-4)">8 Apr 2025</td>
+            <td style="font-size:13px">756</td>
+            <td><span class="badge badge-green">Publikasi</span></td>
+            <td>
+              <div style="display:flex;gap:6px">
+                <button class="btn btn-sm" onclick="editArtikel(this)">Edit</button>
+                <button class="btn btn-sm btn-danger" onclick="hapusRow(this)">Hapus</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><strong style="font-size:13px">Teknik Belajar Efektif untuk Mahasiswa Teknologi</strong></td>
+            <td><span class="badge badge-purple">Soft Skill</span></td>
+            <td style="font-size:13px">Agus Wijaya</td>
+            <td style="font-size:13px;color:var(--ink-4)">5 Apr 2025</td>
+            <td style="font-size:13px">512</td>
+            <td><span class="badge badge-gray">Draft</span></td>
+            <td>
+              <div style="display:flex;gap:6px">
+                <button class="btn btn-sm" onclick="editArtikel(this)">Edit</button>
+                <button class="btn btn-sm btn-danger" onclick="hapusRow(this)">Hapus</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><strong style="font-size:13px">REST API vs GraphQL: Mana yang Lebih Baik?</strong></td>
+            <td><span class="badge badge-blue">Web Dev</span></td>
+            <td style="font-size:13px">Fajar Nugraha</td>
+            <td style="font-size:13px;color:var(--ink-4)">3 Apr 2025</td>
+            <td style="font-size:13px">1.100</td>
+            <td><span class="badge badge-green">Publikasi</span></td>
+            <td>
+              <div style="display:flex;gap:6px">
+                <button class="btn btn-sm" onclick="editArtikel(this)">Edit</button>
+                <button class="btn btn-sm btn-danger" onclick="hapusRow(this)">Hapus</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><strong style="font-size:13px">User Research: Kenapa Penting Sebelum Desain?</strong></td>
+            <td><span class="badge badge-blue">UI/UX</span></td>
+            <td style="font-size:13px">Sinta Dewi</td>
+            <td style="font-size:13px;color:var(--ink-4)">1 Apr 2025</td>
+            <td style="font-size:13px">430</td>
+            <td><span class="badge badge-gray">Draft</span></td>
+            <td>
+              <div style="display:flex;gap:6px">
+                <button class="btn btn-sm" onclick="editArtikel(this)">Edit</button>
+                <button class="btn btn-sm btn-danger" onclick="hapusRow(this)">Hapus</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="pagination">
+      <a href="#" class="active">1</a><a href="#">2</a><a href="#">3</a><a href="#">›</a>
+    </div>
+
+  </main>
+</div>
+
+<!-- MODAL TAMBAH / EDIT -->
+<div class="modal-overlay" id="modalTambah">
+  <div class="modal" style="max-width:560px">
+    <h3 id="modalTitle">➕ Tambah Artikel Baru</h3>
+    <div class="form-group">
+      <label>Judul Artikel</label>
+      <input type="text" id="inputJudul" placeholder="Masukkan judul artikel...">
+    </div>
+    <div class="grid-2">
+      <div class="form-group">
+        <label>Kategori</label>
+        <select id="inputKat">
+          <option>UI/UX</option>
+          <option>Web Dev</option>
+          <option>Data Science</option>
+          <option>Soft Skill</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Status</label>
+        <select id="inputStatus">
+          <option>Publikasi</option>
+          <option>Draft</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Penulis</label>
+      <input type="text" id="inputPenulis" placeholder="Nama penulis">
+    </div>
+    <div class="form-group">
+      <label>Ringkasan</label>
+      <textarea id="inputRingkasan" rows="3" placeholder="Ringkasan singkat artikel..."></textarea>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-outline-gray" onclick="closeModal('modalTambah')">Batal</button>
+      <button class="btn" onclick="simpanArtikel()">Simpan</button>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+<script>
+let editRow = null;
+
+function filterTable() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  const kat = document.getElementById('filterKat').value;
+  const status = document.getElementById('filterStatus').value;
+  document.querySelectorAll('#artikelTable tbody tr').forEach(tr => {
+    const judul = tr.cells[0].textContent.toLowerCase();
+    const k = tr.cells[1].textContent.trim();
+    const s = tr.cells[5].textContent.trim();
+    tr.style.display = (judul.includes(q) && (!kat || k.includes(kat)) && (!status || s.includes(status))) ? '' : 'none';
+  });
+}
+
+function editArtikel(btn) {
+  editRow = btn.closest('tr');
+  const cells = editRow.cells;
+  document.getElementById('modalTitle').textContent = '✏️ Edit Artikel';
+  document.getElementById('inputJudul').value = cells[0].querySelector('strong').textContent;
+  document.getElementById('inputKat').value = cells[1].textContent.trim();
+  document.getElementById('inputPenulis').value = cells[2].textContent.trim();
+  document.getElementById('inputStatus').value = cells[5].textContent.trim();
+  openModal('modalTambah');
+}
+
+function simpanArtikel() {
+  const judul = document.getElementById('inputJudul').value.trim();
+  const kat = document.getElementById('inputKat').value;
+  const penulis = document.getElementById('inputPenulis').value.trim();
+  const status = document.getElementById('inputStatus').value;
+  if (!judul) { showToast('Judul tidak boleh kosong', 'error'); return; }
+
+  const katBadge = { 'UI/UX':'badge-blue','Web Dev':'badge-green','Data Science':'badge-yellow','Soft Skill':'badge-purple' };
+  const statusBadge = status === 'Publikasi' ? 'badge-green' : 'badge-gray';
+  const today = new Date().toLocaleDateString('id-ID',{day:'2-digit',month:'short',year:'numeric'});
+
+  if (editRow) {
+    editRow.cells[0].innerHTML = `<strong style="font-size:13px">${judul}</strong>`;
+    editRow.cells[1].innerHTML = `<span class="badge ${katBadge[kat]||'badge-gray'}">${kat}</span>`;
+    editRow.cells[2].textContent = penulis;
+    editRow.cells[5].innerHTML = `<span class="badge ${statusBadge}">${status}</span>`;
+    editRow = null;
+    showToast('Artikel berhasil diperbarui');
+  } else {
+    const tbody = document.querySelector('#artikelTable tbody');
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><strong style="font-size:13px">${judul}</strong></td>
+      <td><span class="badge ${katBadge[kat]||'badge-gray'}">${kat}</span></td>
+      <td style="font-size:13px">${penulis}</td>
+      <td style="font-size:13px;color:var(--ink-4)">${today}</td>
+      <td style="font-size:13px">0</td>
+      <td><span class="badge ${statusBadge}">${status}</span></td>
+      <td><div style="display:flex;gap:6px">
+        <button class="btn btn-sm" onclick="editArtikel(this)">Edit</button>
+        <button class="btn btn-sm btn-danger" onclick="hapusRow(this)">Hapus</button>
+      </div></td>`;
+    tbody.prepend(tr);
+    showToast('Artikel berhasil ditambahkan');
+  }
+
+  document.getElementById('inputJudul').value = '';
+  document.getElementById('inputPenulis').value = '';
+  document.getElementById('inputRingkasan').value = '';
+  document.getElementById('modalTitle').textContent = '➕ Tambah Artikel Baru';
+  closeModal('modalTambah');
+}
+
+function hapusRow(btn) {
+  if (!confirm('Hapus artikel ini?')) return;
+  btn.closest('tr').remove();
+  showToast('Artikel dihapus', 'error');
+}
+</script>
+</body>
+</html>

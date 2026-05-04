@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Katalog Kursus – EduFlow</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="navbar">
+  <a href="index.html" class="logo">EduFlow <span>BETA</span></a>
+  <nav class="main-nav" id="menu">
+    <a href="index.html">Beranda</a>
+    <a href="katalog-kursus.html" class="active">Kursus</a>
+    <a href="arsip-artikel.html">Artikel</a>
+    <a href="index.html#kontak">Kontak</a>
+  </nav>
+  <div class="navbar-right">
+    <a href="dashboard.html" class="btn-outline">Dashboard</a>
+    <a href="login.html" class="btn">Masuk</a>
+    <div class="menu-btn" onclick="toggleMenu()">☰</div>
+  </div>
+</header>
+
+<div class="page-header">
+  <div class="breadcrumb"><a href="index.html">Beranda</a> › Kursus</div>
+  <h1>📚 Katalog Kursus</h1>
+  <p>Temukan kursus terbaik untuk meningkatkan skill kamu bersama instruktur berpengalaman.</p>
+</div>
+
+<div class="page-body">
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="🔍  Cari kursus..." oninput="filterKursus()">
+    <select id="sortBy" onchange="filterKursus()">
+      <option value="">Urutkan: Terpopuler</option>
+      <option value="terbaru">Terbaru</option>
+      <option value="gratis">Gratis Dulu</option>
+    </select>
+  </div>
+
+  <div class="katalog-layout">
+    <div class="katalog-sidebar">
+      <div class="filter-box">
+        <h4>📂 Kategori</h4>
+        <label class="filter-option"><input type="checkbox" onchange="filterKursus()" value="UI/UX"> UI/UX Design</label>
+        <label class="filter-option"><input type="checkbox" onchange="filterKursus()" value="Web Dev"> Web Development</label>
+        <label class="filter-option"><input type="checkbox" onchange="filterKursus()" value="Data"> Data Science</label>
+        <label class="filter-option"><input type="checkbox" onchange="filterKursus()" value="Mobile"> Mobile Dev</label>
+        <label class="filter-option"><input type="checkbox" onchange="filterKursus()" value="Soft"> Soft Skill</label>
+      </div>
+      <div class="filter-box">
+        <h4>💰 Harga</h4>
+        <label class="filter-option"><input type="checkbox"> Gratis</label>
+        <label class="filter-option"><input type="checkbox"> Berbayar</label>
+      </div>
+      <div class="filter-box">
+        <h4>⭐ Rating</h4>
+        <label class="filter-option"><input type="checkbox"> 4.5 ke atas</label>
+        <label class="filter-option"><input type="checkbox"> 4.0 ke atas</label>
+      </div>
+      <div class="filter-box">
+        <h4>⏱️ Durasi</h4>
+        <label class="filter-option"><input type="checkbox"> &lt; 5 jam</label>
+        <label class="filter-option"><input type="checkbox"> 5–10 jam</label>
+        <label class="filter-option"><input type="checkbox"> &gt; 10 jam</label>
+      </div>
+    </div>
+
+    <div class="katalog-main">
+      <p class="result-count" id="resultCount">Menampilkan <strong>6</strong> kursus</p>
+      <div class="grid-3" id="kursusGrid">
+
+        <div class="kursus-card kursus-item" data-kategori="UI/UX" data-harga="berbayar">
+          <div class="kursus-thumb" style="background:linear-gradient(135deg,#dbeafe,#93c5fd)">🎨</div>
+          <div class="kursus-body">
+            <span class="badge badge-blue">UI/UX</span>
+            <h3>UI/UX Design Bootcamp: Dari Nol ke Pro</h3>
+            <p style="font-size:12px;color:var(--ink-4);margin-bottom:6px">👩‍🏫 Rina Kartika</p>
+            <div class="kursus-meta"><span>⭐ 4.8</span><span>👥 1.2k siswa</span><span>⏱️ 12 jam</span></div>
+          </div>
+          <div class="kursus-footer">
+            <span class="price">Rp 299.000</span>
+            <a href="detail-kursus.html" class="btn btn-sm">Lihat Detail</a>
+          </div>
+        </div>
+
+        <div class="kursus-card kursus-item" data-kategori="Web Dev" data-harga="berbayar">
+          <div class="kursus-thumb" style="background:linear-gradient(135deg,#d1fae5,#6ee7b7)">💻</div>
+          <div class="kursus-body">
+            <span class="badge badge-green">Web Dev</span>
+            <h3>Full-Stack Web Development dengan React & Node.js</h3>
+            <p style="font-size:12px;color:var(--ink-4);margin-bottom:6px">👨‍🏫 Budi Santoso</p>
+            <div class="kursus-meta"><span>⭐ 4.9</span><span>👥 2.4k siswa</span><span>⏱️ 20 jam</span></div>
+          </div>
+          <div class="kursus-footer">
+            <span class="price">Rp 499.000</span>
+            <a href="detail-kursus.html" class="btn btn-sm">Lihat Detail</a>
+          </div>
+        </div>
+
+        <div class="kursus-card kursus-item" data-kategori="Data" data-harga="gratis">
+          <div class="kursus-thumb" style="background:linear-gradient(135deg,#fef3c7,#fcd34d)">📊</div>
+          <div class="kursus-body">
+            <span class="badge badge-yellow">Data Science</span>
+            <h3>Python untuk Data Science: Panduan Lengkap</h3>
+            <p style="font-size:12px;color:var(--ink-4);margin-bottom:6px">👩‍🏫 Dita Pramesti</p>
+            <div class="kursus-meta"><span>⭐ 4.7</span><span>👥 3.1k siswa</span><span>⏱️ 15 jam</span></div>
+          </div>
+          <div class="kursus-footer">
+            <span class="price price-free">GRATIS</span>
+            <a href="detail-kursus.html" class="btn btn-sm btn-success">Mulai Belajar</a>
+          </div>
+        </div>
+
+        <div class="kursus-card kursus-item" data-kategori="Mobile" data-harga="berbayar">
+          <div class="kursus-thumb" style="background:linear-gradient(135deg,#ede9fe,#c4b5fd)">📱</div>
+          <div class="kursus-body">
+            <span class="badge badge-purple">Mobile Dev</span>
+            <h3>Flutter & Dart: Buat Aplikasi iOS & Android</h3>
+            <p style="font-size:12px;color:var(--ink-4);margin-bottom:6px">👨‍🏫 Hendra Gunawan</p>
+            <div class="kursus-meta"><span>⭐ 4.6</span><span>👥 890 siswa</span><span>⏱️ 18 jam</span></div>
+          </div>
+          <div class="kursus-footer">
+            <span class="price">Rp 399.000</span>
+            <a href="detail-kursus.html" class="btn btn-sm">Lihat Detail</a>
+          </div>
+        </div>
+
+        <div class="kursus-card kursus-item" data-kategori="Soft" data-harga="gratis">
+          <div class="kursus-thumb" style="background:linear-gradient(135deg,#fce7f3,#f9a8d4)">🧠</div>
+          <div class="kursus-body">
+            <span class="badge badge-purple">Soft Skill</span>
+            <h3>Public Speaking & Presentasi yang Efektif</h3>
+            <p style="font-size:12px;color:var(--ink-4);margin-bottom:6px">👩‍🏫 Sinta Dewi</p>
+            <div class="kursus-meta"><span>⭐ 4.5</span><span>👥 560 siswa</span><span>⏱️ 6 jam</span></div>
+          </div>
+          <div class="kursus-footer">
+            <span class="price price-free">GRATIS</span>
+            <a href="detail-kursus.html" class="btn btn-sm btn-success">Mulai Belajar</a>
+          </div>
+        </div>
+
+        <div class="kursus-card kursus-item" data-kategori="Web Dev" data-harga="berbayar">
+          <div class="kursus-thumb" style="background:linear-gradient(135deg,#e0e7ff,#818cf8)">🚀</div>
+          <div class="kursus-body">
+            <span class="badge badge-blue">Web Dev</span>
+            <h3>Laravel & MySQL: Bangun Aplikasi Web Modern</h3>
+            <p style="font-size:12px;color:var(--ink-4);margin-bottom:6px">👨‍🏫 Fajar Nugraha</p>
+            <div class="kursus-meta"><span>⭐ 4.8</span><span>👥 1.7k siswa</span><span>⏱️ 16 jam</span></div>
+          </div>
+          <div class="kursus-footer">
+            <span class="price">Rp 349.000</span>
+            <a href="detail-kursus.html" class="btn btn-sm">Lihat Detail</a>
+          </div>
+        </div>
+
+      </div>
+      <div class="pagination">
+        <a href="#" class="active">1</a><a href="#">2</a><a href="#">3</a><a href="#">›</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div><a href="index.html" class="logo" style="color:#fff;margin-bottom:10px;display:inline-flex">EduFlow</a><p>Platform belajar online terpercaya untuk generasi digital Indonesia.</p></div>
+    <div><h3>Produk</h3><a href="katalog-kursus.html">Katalog Kursus</a><a href="arsip-artikel.html">Artikel</a></div>
+    <div><h3>Perusahaan</h3><a href="#">Tentang Kami</a><a href="#">Kontak</a></div>
+    <div><h3>Dukungan</h3><a href="#">FAQ</a></div>
+  </div>
+  <p class="copy">© 2025 EduFlow. All rights reserved.</p>
+</footer>
+
+<script src="script.js"></script>
+<script>
+function filterKursus() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  let count = 0;
+  document.querySelectorAll('.kursus-item').forEach(el => {
+    const show = el.querySelector('h3').textContent.toLowerCase().includes(q);
+    el.style.display = show ? '' : 'none';
+    if (show) count++;
+  });
+  document.getElementById('resultCount').innerHTML = `Menampilkan <strong>${count}</strong> kursus`;
+}
+</script>
+</body>
+</html>

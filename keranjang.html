@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Keranjang – EduFlow</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="navbar">
+  <a href="index.html" class="logo">EduFlow <span>BETA</span></a>
+  <nav class="main-nav" id="menu">
+    <a href="index.html">Beranda</a>
+    <a href="katalog-kursus.html">Kursus</a>
+    <a href="arsip-artikel.html">Artikel</a>
+  </nav>
+  <div class="navbar-right">
+    <a href="dashboard.html" class="btn-outline">Dashboard</a>
+    <a href="login.html" class="btn">Masuk</a>
+    <div class="menu-btn" onclick="toggleMenu()">☰</div>
+  </div>
+</header>
+
+<div class="page-header">
+  <div class="breadcrumb"><a href="index.html">Beranda</a> › Keranjang</div>
+  <h1>🛒 Keranjang Kursus</h1>
+  <p id="cartCount">3 kursus di keranjang kamu</p>
+</div>
+
+<div class="page-body">
+  <div class="cart-layout">
+    <div>
+      <div class="alert alert-info">💡 Checkout sekarang dan hemat hingga <strong>50%</strong> dengan promo Ramadan!</div>
+
+      <div id="cartItems">
+        <div class="cart-item" id="item1">
+          <div class="cart-thumb" style="background:linear-gradient(135deg,#dbeafe,#93c5fd)">🎨</div>
+          <div class="cart-info" style="flex:1">
+            <h4 style="font-size:15px;font-weight:700;margin-bottom:4px">UI/UX Design Bootcamp: Dari Nol ke Pro</h4>
+            <p style="font-size:13px;color:var(--ink-4)">👩‍🏫 Rina Kartika &nbsp;|&nbsp; ⭐ 4.8 &nbsp;|&nbsp; ⏱️ 12 jam</p>
+            <div class="cart-price">Rp 299.000 <span class="cart-price-old">Rp 599.000</span></div>
+          </div>
+          <button class="cart-remove" onclick="removeItem('item1', 299000)">🗑️ Hapus</button>
+        </div>
+
+        <div class="cart-item" id="item2">
+          <div class="cart-thumb" style="background:linear-gradient(135deg,#d1fae5,#6ee7b7)">💻</div>
+          <div class="cart-info" style="flex:1">
+            <h4 style="font-size:15px;font-weight:700;margin-bottom:4px">Full-Stack Web Development dengan React & Node.js</h4>
+            <p style="font-size:13px;color:var(--ink-4)">👨‍🏫 Budi Santoso &nbsp;|&nbsp; ⭐ 4.9 &nbsp;|&nbsp; ⏱️ 20 jam</p>
+            <div class="cart-price">Rp 499.000 <span class="cart-price-old">Rp 999.000</span></div>
+          </div>
+          <button class="cart-remove" onclick="removeItem('item2', 499000)">🗑️ Hapus</button>
+        </div>
+
+        <div class="cart-item" id="item3">
+          <div class="cart-thumb" style="background:linear-gradient(135deg,#ede9fe,#c4b5fd)">📱</div>
+          <div class="cart-info" style="flex:1">
+            <h4 style="font-size:15px;font-weight:700;margin-bottom:4px">Flutter & Dart: Buat Aplikasi iOS & Android</h4>
+            <p style="font-size:13px;color:var(--ink-4)">👨‍🏫 Hendra Gunawan &nbsp;|&nbsp; ⭐ 4.6 &nbsp;|&nbsp; ⏱️ 18 jam</p>
+            <div class="cart-price">Rp 399.000 <span class="cart-price-old">Rp 799.000</span></div>
+          </div>
+          <button class="cart-remove" onclick="removeItem('item3', 399000)">🗑️ Hapus</button>
+        </div>
+      </div>
+      <div style="margin-top:20px">
+        <a href="katalog-kursus.html" class="btn-outline-gray">← Lanjut Belanja</a>
+      </div>
+    </div>
+
+    <div>
+      <div class="summary-card">
+        <h3>Ringkasan Pesanan</h3>
+        <div class="summary-row"><span>Subtotal (3 kursus)</span><span id="subtotal">Rp 1.197.000</span></div>
+        <div class="summary-row"><span>Diskon promo</span><span style="color:var(--green)" id="diskon">- Rp 0</span></div>
+        <div class="coupon-box">
+          <input type="text" placeholder="Kode kupon" id="couponInput">
+          <button class="btn btn-sm" onclick="applyCoupon()">Pakai</button>
+        </div>
+        <div id="couponMsg" style="font-size:12px;display:none;margin-bottom:8px"></div>
+        <div class="summary-total">
+          <span>Total</span>
+          <span id="total" style="color:var(--blue)">Rp 1.197.000</span>
+        </div>
+        <a href="pembayaran.html" class="btn" style="width:100%;justify-content:center;display:flex;margin-top:18px;font-size:15px">Bayar Sekarang →</a>
+        <p class="summary-secure">🔒 Pembayaran aman & terenkripsi</p>
+        <p class="summary-secure">✅ Garansi uang kembali 30 hari</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div><a href="index.html" class="logo" style="color:#fff;margin-bottom:10px;display:inline-flex">EduFlow</a><p>Platform belajar online terpercaya.</p></div>
+    <div><h3>Produk</h3><a href="katalog-kursus.html">Katalog Kursus</a></div>
+    <div><h3>Perusahaan</h3><a href="#">Kontak</a></div>
+    <div><h3>Dukungan</h3><a href="#">FAQ</a></div>
+  </div>
+  <p class="copy">© 2025 EduFlow. All rights reserved.</p>
+</footer>
+
+<script src="script.js"></script>
+<script>
+let total = 1197000, itemCount = 3;
+function removeItem(id, price) {
+  if (!confirm('Hapus kursus dari keranjang?')) return;
+  document.getElementById(id).remove();
+  total -= price; itemCount--;
+  document.getElementById('subtotal').textContent = 'Rp ' + total.toLocaleString('id-ID');
+  document.getElementById('total').textContent = 'Rp ' + total.toLocaleString('id-ID');
+  document.getElementById('cartCount').textContent = itemCount + ' kursus di keranjang kamu';
+}
+function applyCoupon() {
+  const code = document.getElementById('couponInput').value.toUpperCase();
+  const msg = document.getElementById('couponMsg');
+  msg.style.display = 'block';
+  if (code === 'EDUFLOW50') {
+    const disc = Math.floor(total * 0.5);
+    document.getElementById('diskon').textContent = '- Rp ' + disc.toLocaleString('id-ID');
+    document.getElementById('total').textContent = 'Rp ' + (total - disc).toLocaleString('id-ID');
+    msg.style.color = 'var(--green)'; msg.textContent = '✅ Kupon berhasil! Diskon 50%';
+  } else {
+    msg.style.color = 'var(--red)'; msg.textContent = '❌ Kode kupon tidak valid.';
+  }
+}
+</script>
+</body>
+</html>

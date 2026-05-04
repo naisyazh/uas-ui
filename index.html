@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EduFlow – Platform Belajar Online</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<header class="navbar">
+  <a href="index.html" class="logo">EduFlow <span>BETA</span></a>
+  <nav class="main-nav" id="menu">
+    <a href="index.html" class="active">Beranda</a>
+    <a href="javascript:void(0)" onclick="goTo('katalog-kursus.html')">Kursus</a>
+    <a href="javascript:void(0)" onclick="goTo('arsip-artikel.html')">Artikel</a>
+    <a href="#kontak">Kontak</a>
+  </nav>
+  <div class="navbar-right">
+    <a href="login.html" class="btn">Masuk</a>
+    <div class="menu-btn" onclick="toggleMenu()">☰</div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero fade-in">
+  <div class="hero-text">
+    <div class="hero-eyebrow">🚀 Platform Belajar #1 Indonesia</div>
+    <h1>Tingkatkan Skill-mu dengan <em>Cara yang Lebih Cerdas</em></h1>
+    <p>EduFlow hadir dengan ribuan kursus berkualitas, instruktur berpengalaman, dan komunitas pelajar yang aktif. Mulai belajar sekarang, gratis!</p>
+    <div class="hero-actions">
+      <a href="login.html" class="btn">Mulai Belajar →</a>
+      <a href="#video" class="btn-outline-gray">▶ Lihat Demo</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><strong>10K+</strong><span>Pelajar Aktif</span></div>
+      <div class="hero-stat"><strong>120+</strong><span>Kursus Tersedia</span></div>
+      <div class="hero-stat"><strong>4.9★</strong><span>Rating Rata-rata</span></div>
+      <div class="hero-stat"><strong>50+</strong><span>Instruktur Expert</span></div>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-card">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+        <div>
+          <p style="font-size:12px;color:var(--ink-4);margin-bottom:2px">Kursus Populer</p>
+          <h3 style="font-size:16px;font-weight:700">Pilihan Terbaik Minggu Ini</h3>
+        </div>
+        <span class="badge badge-blue">Live</span>
+      </div>
+      <div class="course-preview">
+        <div class="course-item" onclick="goTo('katalog-kursus.html')" style="cursor:pointer">
+          <div class="icon" style="background:#dbeafe">🎨</div>
+          <div style="flex:1">
+            <h4>UI/UX Design Bootcamp</h4>
+            <div class="meta">⭐ 4.8 · 1.2k siswa</div>
+            <div class="prog-bar" style="margin-top:6px"><div class="prog-fill" style="width:72%"></div></div>
+          </div>
+          <span style="font-size:13px;font-weight:700;color:var(--blue)">Rp 299rb</span>
+        </div>
+        <div class="course-item" onclick="goTo('katalog-kursus.html')" style="cursor:pointer">
+          <div class="icon" style="background:#d1fae5">💻</div>
+          <div style="flex:1">
+            <h4>Full-Stack Web Dev</h4>
+            <div class="meta">⭐ 4.9 · 2.4k siswa</div>
+            <div class="prog-bar" style="margin-top:6px"><div class="prog-fill" style="width:88%"></div></div>
+          </div>
+          <span style="font-size:13px;font-weight:700;color:var(--blue)">Rp 499rb</span>
+        </div>
+        <div class="course-item" onclick="goTo('katalog-kursus.html')" style="cursor:pointer">
+          <div class="icon" style="background:#fef3c7">📊</div>
+          <div style="flex:1">
+            <h4>Python Data Science</h4>
+            <div class="meta">⭐ 4.7 · 3.1k siswa</div>
+            <div class="prog-bar" style="margin-top:6px"><div class="prog-fill" style="width:55%;background:var(--green)"></div></div>
+          </div>
+          <span style="font-size:13px;font-weight:700;color:var(--green)">GRATIS</span>
+        </div>
+      </div>
+      <div class="floating-badge" style="top:-18px;right:20px">
+        <span class="num">+240</span> bergabung bulan ini
+      </div>
+      <div class="floating-badge" style="bottom:-16px;left:20px">
+        🏆 <span style="color:var(--yellow)">Sertifikat</span> resmi
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUSTED -->
+<div class="trusted">
+  <p>Dipercaya oleh pelajar dari</p>
+  <div class="trusted-logos">
+    <span>🏛 Universitas Indonesia</span>
+    <span>🏛 ITB</span>
+    <span>🏛 UGM</span>
+    <span>🏢 Tokopedia</span>
+    <span>🏢 Gojek</span>
+    <span>🏢 Traveloka</span>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section class="section fade-in">
+  <div class="section-head">
+    <span class="eyebrow">Mengapa EduFlow?</span>
+    <h2>Semua yang Kamu Butuhkan untuk <em>Berkembang</em></h2>
+    <p>Kami merancang pengalaman belajar yang personal, fleksibel, dan efektif.</p>
+  </div>
+  <div class="feat-grid">
+    <div class="feat-card">
+      <div class="feat-icon" style="background:#dbeafe">🎬</div>
+      <h3>Video Berkualitas HD</h3>
+      <p>Materi disajikan dalam video sinematik yang jelas, terstruktur, dan bisa diakses kapan saja dari perangkat apapun.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon" style="background:#d1fae5">📊</div>
+      <h3>Progress Tracking Real-time</h3>
+      <p>Pantau perkembangan belajarmu dengan dashboard yang intuitif. Lihat seberapa jauh kamu sudah melangkah.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon" style="background:#fef3c7">🏆</div>
+      <h3>Sertifikat Terverifikasi</h3>
+      <p>Dapatkan sertifikat penyelesaian yang bisa langsung ditambahkan ke LinkedIn dan portofolio profesionalmu.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon" style="background:#f3e8ff">👥</div>
+      <h3>Komunitas Aktif</h3>
+      <p>Berdiskusi, berkolaborasi, dan tumbuh bersama ribuan pelajar lain melalui forum dan grup kursus eksklusif.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon" style="background:#fce7f3">🎯</div>
+      <h3>Quiz & Latihan</h3>
+      <p>Uji pemahamanmu dengan soal interaktif di setiap bab. Dapatkan feedback langsung untuk percepat belajarmu.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon" style="background:#ecfdf5">♾️</div>
+      <h3>Akses Seumur Hidup</h3>
+      <p>Beli sekali, akses selamanya. Termasuk semua update materi di masa depan tanpa biaya tambahan.</p>
+    </div>
+  </div>
+</section>
+
+<!-- POPULAR COURSES -->
+<section class="section section-alt fade-in">
+  <div class="section-head">
+    <span class="eyebrow">Kursus Populer</span>
+    <h2>Mulai dari Mana yang <em>Kamu Suka</em></h2>
+    <p>Ribuan kursus dari instruktur berpengalaman di berbagai bidang teknologi.</p>
+  </div>
+  <div class="grid-3" style="margin-bottom:36px">
+    <div class="card">
+      <div class="card-img" style="background:linear-gradient(135deg,#dbeafe,#93c5fd)">🎨</div>
+      <div class="card-body">
+        <div class="flex-between" style="margin-bottom:8px">
+          <span class="badge badge-blue">UI/UX</span>
+          <div class="stars">★★★★★</div>
+        </div>
+        <h3 style="font-size:15px;font-weight:700;margin-bottom:6px;line-height:1.4">UI/UX Design Bootcamp: Dari Nol ke Pro</h3>
+        <p style="font-size:13px;color:var(--ink-3);margin-bottom:12px">Rina Kartika · 12 jam · 1.247 siswa</p>
+      </div>
+      <div class="card-footer">
+        <span style="font-size:17px;font-weight:800;color:var(--blue)">Rp 299.000</span>
+        <a href="javascript:void(0)" onclick="goTo('katalog-kursus.html')" class="btn btn-sm">Lihat Detail</a>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-img" style="background:linear-gradient(135deg,#d1fae5,#6ee7b7)">💻</div>
+      <div class="card-body">
+        <div class="flex-between" style="margin-bottom:8px">
+          <span class="badge badge-green">Web Dev</span>
+          <div class="stars">★★★★★</div>
+        </div>
+        <h3 style="font-size:15px;font-weight:700;margin-bottom:6px;line-height:1.4">Full-Stack Web Development React & Node.js</h3>
+        <p style="font-size:13px;color:var(--ink-3);margin-bottom:12px">Budi Santoso · 20 jam · 2.4k siswa</p>
+      </div>
+      <div class="card-footer">
+        <span style="font-size:17px;font-weight:800;color:var(--blue)">Rp 499.000</span>
+        <a href="javascript:void(0)" onclick="goTo('katalog-kursus.html')" class="btn btn-sm">Lihat Detail</a>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-img" style="background:linear-gradient(135deg,#fef3c7,#fcd34d)">📊</div>
+      <div class="card-body">
+        <div class="flex-between" style="margin-bottom:8px">
+          <span class="badge badge-yellow">Data Science</span>
+          <div class="stars">★★★★☆</div>
+        </div>
+        <h3 style="font-size:15px;font-weight:700;margin-bottom:6px;line-height:1.4">Python untuk Data Science: Panduan Lengkap</h3>
+        <p style="font-size:13px;color:var(--ink-3);margin-bottom:12px">Dita Pramesti · 15 jam · 3.1k siswa</p>
+      </div>
+      <div class="card-footer">
+        <span style="font-size:17px;font-weight:800;color:var(--green)">GRATIS</span>
+        <a href="javascript:void(0)" onclick="goTo('katalog-kursus.html')" class="btn btn-sm btn-success">Mulai</a>
+      </div>
+    </div>
+  </div>
+  <div style="text-align:center">
+    <a href="javascript:void(0)" onclick="goTo('katalog-kursus.html')" class="btn-outline">Lihat Semua Kursus →</a>
+  </div>
+</section>
+
+<!-- VIDEO -->
+<section class="section fade-in" id="video">
+  <div class="section-head">
+    <span class="eyebrow">Cara Kerja</span>
+    <h2>Lihat EduFlow <em>Beraksi</em></h2>
+    <p>Platform yang dirancang untuk memaksimalkan pengalaman belajarmu.</p>
+  </div>
+  <div style="max-width:720px;margin:0 auto;border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-lg)">
+    <iframe src="https://www.youtube.com/embed/mqW3KhUY1DU" width="100%" height="400" allowfullscreen style="display:block;border:none"></iframe>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section section-alt fade-in">
+  <div class="section-head">
+    <span class="eyebrow">Testimoni</span>
+    <h2>Kata Mereka yang Sudah <em>Merasakan Manfaatnya</em></h2>
+  </div>
+  <div class="testi-grid">
+    <div class="testi-card">
+      <p class="testi-text">EduFlow mengubah cara saya belajar. Dalam 3 bulan saya berhasil mendapat pekerjaan sebagai UI/UX Designer di startup impian saya.</p>
+      <div class="testi-author">
+        <div class="testi-avatar">👨</div>
+        <div><div class="testi-name">Ahmad Fauzi</div><div class="testi-role">UI/UX Designer @ Fintech</div></div>
+        <div class="stars" style="margin-left:auto">★★★★★</div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <p class="testi-text">Kursus Python Data Science di sini luar biasa. Penjelasan yang mudah dipahami dan project langsung bisa diterapkan di pekerjaan.</p>
+      <div class="testi-author">
+        <div class="testi-avatar">👩</div>
+        <div><div class="testi-name">Sari Indah</div><div class="testi-role">Data Analyst @ E-commerce</div></div>
+        <div class="stars" style="margin-left:auto">★★★★★</div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <p class="testi-text">Sebagai mahasiswa, EduFlow sangat membantu melengkapi materi kuliah dengan skill praktis yang dibutuhkan industri. Highly recommended!</p>
+      <div class="testi-author">
+        <div class="testi-avatar">👨‍🎓</div>
+        <div><div class="testi-name">Rendra Putra</div><div class="testi-role">Mahasiswa Informatika</div></div>
+        <div class="stars" style="margin-left:auto">★★★★★</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section fade-in">
+  <h2>Siap Memulai Perjalanan Belajarmu?</h2>
+  <p>Bergabung dengan 10.000+ pelajar yang sudah berkembang bersama EduFlow. Gratis untuk kursus pilihan!</p>
+  <div class="cta-actions">
+    <a href="login.html" class="btn" style="font-size:16px;padding:12px 28px">Mulai Gratis Sekarang →</a>
+    <a href="javascript:void(0)" onclick="goTo('katalog-kursus.html')" class="btn-outline" style="font-size:16px;padding:12px 28px">Lihat Katalog Kursus</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="kontak">
+  <div class="footer-grid">
+    <div>
+      <a href="index.html" class="logo" style="font-size:22px;margin-bottom:12px;display:inline-flex">EduFlow</a>
+      <p>Platform belajar online terpercaya untuk generasi digital Indonesia. Belajar cerdas, berkarir lebih baik.</p>
+      <div style="display:flex;gap:10px;margin-top:16px">
+        <a href="#" style="width:34px;height:34px;background:#1e293b;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px">📘</a>
+        <a href="#" style="width:34px;height:34px;background:#1e293b;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px">📸</a>
+        <a href="#" style="width:34px;height:34px;background:#1e293b;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px">🐦</a>
+      </div>
+    </div>
+    <div>
+      <h3>Produk</h3>
+      <a href="javascript:void(0)" onclick="goTo('katalog-kursus.html')">Katalog Kursus</a>
+      <a href="javascript:void(0)" onclick="goTo('arsip-artikel.html')">Artikel</a>
+      <a href="javascript:void(0)" onclick="goTo('dashboard.html')">Dashboard</a>
+      <a href="javascript:void(0)" onclick="goTo('sertifikat.html')">Sertifikat</a>
+    </div>
+    <div>
+      <h3>Perusahaan</h3>
+      <a href="#">Tentang Kami</a>
+      <a href="#">Karir</a>
+      <a href="#">Blog</a>
+      <a href="#">Kontak</a>
+    </div>
+    <div>
+      <h3>Dukungan</h3>
+      <a href="#">Pusat Bantuan</a>
+      <a href="#">Syarat & Ketentuan</a>
+      <a href="#">Kebijakan Privasi</a>
+      <a href="#">Refund Policy</a>
+    </div>
+  </div>
+  <p class="copy">© 2025 EduFlow. All rights reserved. Made with ❤️ for Indonesian learners.</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

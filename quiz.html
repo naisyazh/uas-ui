@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz – EduFlow</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .quiz-wrap { max-width:720px; margin:0 auto; padding:32px 20px; }
+
+    /* Pilih Quiz */
+    .quiz-list { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:8px; }
+    .quiz-card { background:var(--surface); border-radius:var(--radius-lg); padding:24px; box-shadow:var(--shadow); cursor:pointer; transition:.25s; border:2px solid transparent; text-align:center; }
+    .quiz-card:hover { box-shadow:var(--shadow-lg); transform:translateY(-3px); border-color:var(--blue); }
+    .quiz-card .qc-icon { font-size:40px; margin-bottom:12px; }
+    .quiz-card h3 { font-size:15px; font-weight:700; margin-bottom:6px; }
+    .quiz-card p  { font-size:12px; color:var(--ink-4); }
+    .quiz-card .qc-meta { display:flex; justify-content:center; gap:12px; margin-top:12px; font-size:11px; color:var(--ink-4); }
+
+    /* Quiz aktif */
+    .quiz-header { background:var(--surface); border-radius:var(--radius-lg); padding:20px 24px; box-shadow:var(--shadow); margin-bottom:20px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; }
+    .quiz-progress-wrap { flex:1; min-width:200px; }
+    .quiz-progress-label { display:flex; justify-content:space-between; font-size:13px; color:var(--ink-4); margin-bottom:6px; }
+    .quiz-progress-bar { height:8px; background:var(--bg-2); border-radius:4px; overflow:hidden; }
+    .quiz-progress-fill { height:100%; background:var(--blue); border-radius:4px; transition:width .4s ease; }
+    .quiz-timer { display:flex; align-items:center; gap:8px; font-size:22px; font-weight:800; color:var(--ink); }
+    .quiz-timer.warning { color:var(--red); animation:pulse .8s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.5} }
+
+    .question-card { background:var(--surface); border-radius:var(--radius-lg); padding:32px; box-shadow:var(--shadow); margin-bottom:20px; }
+    .question-num { font-size:12px; font-weight:700; color:var(--blue); text-transform:uppercase; letter-spacing:1px; margin-bottom:12px; }
+    .question-text { font-size:18px; font-weight:700; line-height:1.5; color:var(--ink); margin-bottom:28px; }
+
+    .options { display:flex; flex-direction:column; gap:12px; }
+    .option { display:flex; align-items:center; gap:14px; padding:16px 20px; border:2px solid var(--line); border-radius:var(--radius); cursor:pointer; transition:.2s; font-size:15px; color:var(--ink-2); background:var(--surface); }
+    .option:hover:not(.disabled) { border-color:var(--blue); background:var(--blue-light); color:var(--blue); }
+    .option.selected { border-color:var(--blue); background:var(--blue-light); color:var(--blue); }
+    .option.correct  { border-color:var(--green); background:var(--green-light); color:var(--green); }
+    .option.wrong    { border-color:var(--red);   background:var(--red-light);   color:var(--red); }
+    .option.disabled { cursor:default; }
+    .option .opt-letter { width:32px; height:32px; border-radius:50%; border:2px solid currentColor; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px; flex-shrink:0; }
+    .option .opt-icon { margin-left:auto; font-size:18px; }
+
+    .quiz-nav { display:flex; justify-content:space-between; align-items:center; margin-top:8px; }
+    .quiz-nav .soal-dots { display:flex; gap:6px; flex-wrap:wrap; }
+    .soal-dot { width:10px; height:10px; border-radius:50%; background:var(--line); transition:.2s; }
+    .soal-dot.answered { background:var(--blue); }
+    .soal-dot.correct  { background:var(--green); }
+    .soal-dot.wrong    { background:var(--red); }
+    .soal-dot.current  { outline:2px solid var(--blue); outline-offset:2px; }
+
+    /* Hasil */
+    .result-card { background:var(--surface); border-radius:var(--radius-lg); padding:48px 32px; box-shadow:var(--shadow-lg); text-align:center; }
+    .result-score { font-size:72px; font-weight:800; line-height:1; margin:16px 0 8px; }
+    .result-score.excellent { color:var(--green); }
+    .result-score.good      { color:var(--blue); }
+    .result-score.poor      { color:var(--red); }
+    .result-label { font-size:22px; font-weight:800; margin-bottom:8px; }
+    .result-sub   { font-size:15px; color:var(--ink-3); margin-bottom:32px; }
+    .result-stats { display:flex; justify-content:center; gap:32px; margin-bottom:32px; flex-wrap:wrap; }
+    .result-stat  { text-align:center; }
+    .result-stat strong { display:block; font-size:24px; font-weight:800; }
+    .result-stat span   { font-size:12px; color:var(--ink-4); }
+    .result-actions { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+
+    /* Review jawaban */
+    .review-item { background:var(--surface); border-radius:var(--radius); padding:20px; margin-bottom:12px; box-shadow:var(--shadow-sm); border-left:4px solid var(--line); }
+    .review-item.correct { border-left-color:var(--green); }
+    .review-item.wrong   { border-left-color:var(--red); }
+    .review-q { font-size:14px; font-weight:600; margin-bottom:10px; }
+    .review-ans { font-size:13px; margin-bottom:4px; }
+
+    @media(max-width:768px) { .quiz-list { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+
+<header class="navbar">
+  <a href="index.html" class="logo">EduFlow <span>BETA</span></a>
+  <nav class="main-nav" id="menu">
+    <a href="index.html">Beranda</a>
+    <a href="katalog-kursus.html">Kursus</a>
+    <a href="arsip-artikel.html">Artikel</a>
+  </nav>
+  <div class="navbar-right">
+    <a href="dashboard.html" class="btn-outline">Dashboard</a>
+    <div class="avatar" onclick="window.location.href='profil.html'" style="cursor:pointer">AF</div>
+    <button class="btn-ghost" onclick="doLogout()" style="font-size:13px;color:var(--ink-3)">Keluar</button>
+    <div class="menu-btn" onclick="toggleMenu()">☰</div>
+  </div>
+</header>
+
+<div class="quiz-wrap">
+
+  <!-- ── SCREEN 1: PILIH QUIZ ── -->
+  <div id="screenPilih">
+    <div style="margin-bottom:28px">
+      <div class="breadcrumb"><a href="index.html">Beranda</a> › <a href="dashboard.html">Dashboard</a> › Quiz</div>
+      <h1 style="font-size:26px;font-weight:800;margin-top:10px">🎯 Pilih Quiz</h1>
+      <p style="color:var(--ink-3);margin-top:4px">Uji pemahamanmu dengan soal-soal interaktif</p>
+    </div>
+    <div class="quiz-list" id="quizList"></div>
+  </div>
+
+  <!-- ── SCREEN 2: QUIZ AKTIF ── -->
+  <div id="screenQuiz" style="display:none">
+    <div class="quiz-header">
+      <div>
+        <h2 id="quizTitle" style="font-size:17px;font-weight:700"></h2>
+        <p id="quizSubtitle" style="font-size:13px;color:var(--ink-4);margin-top:2px"></p>
+      </div>
+      <div class="quiz-progress-wrap">
+        <div class="quiz-progress-label">
+          <span id="progressLabel">Soal 1 dari 10</span>
+          <span id="progressPct">0%</span>
+        </div>
+        <div class="quiz-progress-bar"><div class="quiz-progress-fill" id="progressFill" style="width:0%"></div></div>
+      </div>
+      <div class="quiz-timer" id="timerDisplay">⏱ 30</div>
+    </div>
+
+    <div class="question-card">
+      <div class="question-num" id="questionNum">Soal 1</div>
+      <div class="question-text" id="questionText"></div>
+      <div class="options" id="optionsContainer"></div>
+    </div>
+
+    <div class="quiz-nav">
+      <div class="soal-dots" id="soalDots"></div>
+      <button class="btn" id="btnNext" onclick="nextQuestion()" disabled>Selanjutnya →</button>
+    </div>
+  </div>
+
+  <!-- ── SCREEN 3: HASIL ── -->
+  <div id="screenHasil" style="display:none">
+    <div class="result-card">
+      <div style="font-size:56px" id="resultEmoji">🎉</div>
+      <div class="result-score" id="resultScore">0</div>
+      <div class="result-label" id="resultLabel">Luar Biasa!</div>
+      <div class="result-sub" id="resultSub">Kamu berhasil menyelesaikan quiz dengan sangat baik.</div>
+      <div class="result-stats">
+        <div class="result-stat"><strong id="statBenar" style="color:var(--green)">0</strong><span>Benar</span></div>
+        <div class="result-stat"><strong id="statSalah" style="color:var(--red)">0</strong><span>Salah</span></div>
+        <div class="result-stat"><strong id="statWaktu" style="color:var(--blue)">0s</strong><span>Waktu</span></div>
+        <div class="result-stat"><strong id="statSkor" style="color:var(--ink)">0</strong><span>Poin</span></div>
+      </div>
+      <div class="result-actions">
+        <button class="btn" onclick="ulangQuiz()">🔄 Ulangi Quiz</button>
+        <button class="btn-outline" onclick="lihatReview()">📋 Review Jawaban</button>
+        <a href="dashboard.html" class="btn-outline-gray">🏠 Dashboard</a>
+      </div>
+    </div>
+
+    <!-- Review jawaban (tersembunyi dulu) -->
+    <div id="reviewSection" style="display:none;margin-top:28px">
+      <h3 style="font-size:17px;font-weight:700;margin-bottom:16px">📋 Review Jawaban</h3>
+      <div id="reviewList"></div>
+    </div>
+  </div>
+
+</div>
+
+<script src="script.js"></script>
+<script>
+/* ── DATA QUIZ ── */
+const QUIZZES = [
+  {
+    id: 'uiux',
+    icon: '🎨',
+    title: 'UI/UX Design',
+    desc: 'Prinsip desain antarmuka',
+    soal: 10,
+    waktu: 30,
+    badge: 'badge-blue',
+    questions: [
+      { q: 'Apa kepanjangan dari UI dalam desain digital?', opts: ['User Interface','Universal Integration','Unified Interaction','User Interaction'], ans: 0 },
+      { q: 'Prinsip desain yang menekankan keseragaman tampilan di seluruh halaman disebut?', opts: ['Hierarchy','Consistency','Contrast','Proximity'], ans: 1 },
+      { q: 'Tool desain UI/UX yang paling populer saat ini adalah?', opts: ['Photoshop','Illustrator','Figma','CorelDraw'], ans: 2 },
+      { q: 'Apa yang dimaksud dengan wireframe?', opts: ['Desain final berwarna','Kerangka kasar tampilan','Animasi transisi','Kode HTML halaman'], ans: 1 },
+      { q: 'UX singkatan dari?', opts: ['User Experience','Universal Exchange','Unified Extension','User Execution'], ans: 0 },
+      { q: 'Metode riset pengguna dengan mengamati langsung perilaku pengguna disebut?', opts: ['Survey','Interview','Usability Testing','Focus Group'], ans: 2 },
+      { q: 'Warna yang berlawanan di color wheel disebut?', opts: ['Analogous','Complementary','Triadic','Monochromatic'], ans: 1 },
+      { q: 'Hierarki visual membantu pengguna untuk?', opts: ['Mempercepat loading','Memahami informasi penting','Menghemat memori','Menambah animasi'], ans: 1 },
+      { q: 'Prototype interaktif digunakan untuk?', opts: ['Menulis kode','Menguji alur pengguna','Membuat database','Deploy aplikasi'], ans: 1 },
+      { q: 'Prinsip "less is more" dalam desain mengacu pada?', opts: ['Menggunakan banyak warna','Kesederhanaan tampilan','Menambah fitur sebanyak mungkin','Memperbesar ukuran font'], ans: 1 },
+    ]
+  },
+  {
+    id: 'webdev',
+    icon: '💻',
+    title: 'Web Development',
+    desc: 'HTML, CSS, dan JavaScript',
+    soal: 10,
+    waktu: 30,
+    badge: 'badge-green',
+    questions: [
+      { q: 'Tag HTML yang digunakan untuk membuat tautan adalah?', opts: ['<link>','<a>','<href>','<url>'], ans: 1 },
+      { q: 'CSS singkatan dari?', opts: ['Creative Style Sheets','Cascading Style Sheets','Computer Style Syntax','Colorful Style Sheets'], ans: 1 },
+      { q: 'Property CSS untuk mengubah warna teks adalah?', opts: ['text-color','font-color','color','foreground'], ans: 2 },
+      { q: 'Fungsi JavaScript untuk menampilkan pesan di browser adalah?', opts: ['console.log()','alert()','print()','display()'], ans: 1 },
+      { q: 'Apa itu DOM dalam JavaScript?', opts: ['Data Object Model','Document Object Model','Dynamic Object Method','Display Object Mode'], ans: 1 },
+      { q: 'Tag HTML untuk membuat tabel adalah?', opts: ['<table>','<grid>','<list>','<matrix>'], ans: 0 },
+      { q: 'Selector CSS untuk memilih elemen berdasarkan class adalah?', opts: ['#nama','*nama','.nama','@nama'], ans: 2 },
+      { q: 'Flexbox property untuk mengatur arah item adalah?', opts: ['flex-wrap','flex-direction','flex-grow','flex-basis'], ans: 1 },
+      { q: 'Cara mendeklarasikan variabel di JavaScript modern adalah?', opts: ['var','let / const','dim','int'], ans: 1 },
+      { q: 'HTTP method yang digunakan untuk mengirim data form adalah?', opts: ['GET','DELETE','POST','PUT'], ans: 2 },
+    ]
+  },
+  {
+    id: 'datascience',
+    icon: '📊',
+    title: 'Data Science',
+    desc: 'Python dan analisis data',
+    soal: 10,
+    waktu: 30,
+    badge: 'badge-yellow',
+    questions: [
+      { q: 'Library Python yang paling populer untuk analisis data adalah?', opts: ['NumPy','Pandas','Matplotlib','Scikit-learn'], ans: 1 },
+      { q: 'Apa itu DataFrame dalam Pandas?', opts: ['Tipe data angka','Struktur data 2 dimensi','Fungsi visualisasi','Model machine learning'], ans: 1 },
+      { q: 'Visualisasi data menggunakan library Python?', opts: ['Pandas','NumPy','Matplotlib / Seaborn','TensorFlow'], ans: 2 },
+      { q: 'CSV singkatan dari?', opts: ['Comma Separated Values','Computer Saved Variables','Custom String Values','Coded System Variables'], ans: 0 },
+      { q: 'Fungsi Pandas untuk membaca file CSV adalah?', opts: ['pd.open()','pd.read_csv()','pd.load()','pd.import()'], ans: 1 },
+      { q: 'Apa itu missing value dalam dataset?', opts: ['Nilai yang terlalu besar','Data yang tidak ada/kosong','Nilai duplikat','Data yang salah format'], ans: 1 },
+      { q: 'Algoritma machine learning untuk klasifikasi yang paling sederhana adalah?', opts: ['Neural Network','K-Means','Decision Tree','SVM'], ans: 2 },
+      { q: 'Apa itu overfitting dalam machine learning?', opts: ['Model terlalu sederhana','Model terlalu cocok dengan data training','Model tidak bisa dilatih','Model berjalan lambat'], ans: 1 },
+      { q: 'Library Python untuk machine learning adalah?', opts: ['Pandas','Matplotlib','Scikit-learn','Requests'], ans: 2 },
+      { q: 'Apa fungsi dari normalisasi data?', opts: ['Menghapus data duplikat','Menyamakan skala fitur','Menambah data baru','Mengubah tipe data'], ans: 1 },
+    ]
+  }
+];
+
+/* ── STATE ── */
+let currentQuiz = null;
+let currentQ = 0;
+let answers = [];
+let timerInterval = null;
+let timeLeft = 30;
+let totalTime = 0;
+let timePerQ = [];
+
+/* ── INIT ── */
+function initQuizList() {
+  const container = document.getElementById('quizList');
+  container.innerHTML = QUIZZES.map(q => `
+    <div class="quiz-card" onclick="mulaiQuiz('${q.id}')">
+      <div class="qc-icon">${q.icon}</div>
+      <span class="badge ${q.badge}" style="margin-bottom:10px">${q.title}</span>
+      <h3>${q.title}</h3>
+      <p>${q.desc}</p>
+      <div class="qc-meta">
+        <span>📝 ${q.soal} soal</span>
+        <span>⏱ ${q.waktu}s/soal</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+/* ── MULAI QUIZ ── */
+function mulaiQuiz(id) {
+  currentQuiz = QUIZZES.find(q => q.id === id);
+  currentQ = 0;
+  answers = new Array(currentQuiz.questions.length).fill(null);
+  timePerQ = new Array(currentQuiz.questions.length).fill(0);
+  totalTime = 0;
+
+  document.getElementById('screenPilih').style.display = 'none';
+  document.getElementById('screenQuiz').style.display = 'block';
+  document.getElementById('quizTitle').textContent = currentQuiz.icon + ' ' + currentQuiz.title;
+  document.getElementById('quizSubtitle').textContent = currentQuiz.desc;
+
+  renderDots();
+  tampilSoal();
+}
+
+/* ── TAMPIL SOAL ── */
+function tampilSoal() {
+  const q = currentQuiz.questions[currentQ];
+  const total = currentQuiz.questions.length;
+
+  document.getElementById('questionNum').textContent = 'Soal ' + (currentQ + 1);
+  document.getElementById('questionText').textContent = q.q;
+  document.getElementById('progressLabel').textContent = `Soal ${currentQ + 1} dari ${total}`;
+  const pct = Math.round((currentQ / total) * 100);
+  document.getElementById('progressPct').textContent = pct + '%';
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('btnNext').disabled = true;
+
+  const letters = ['A','B','C','D'];
+  document.getElementById('optionsContainer').innerHTML = q.opts.map((opt, i) => `
+    <div class="option" id="opt${i}" onclick="pilihJawaban(${i})">
+      <span class="opt-letter">${letters[i]}</span>
+      <span>${opt}</span>
+      <span class="opt-icon" id="icon${i}"></span>
+    </div>
+  `).join('');
+
+  // Kalau sudah dijawab sebelumnya, tampilkan state
+  if (answers[currentQ] !== null) {
+    tampilHasilJawaban(answers[currentQ]);
+  }
+
+  updateDots();
+  startTimer();
+}
+
+/* ── TIMER ── */
+function startTimer() {
+  clearInterval(timerInterval);
+  timeLeft = currentQuiz.waktu;
+  updateTimerDisplay();
+  timerInterval = setInterval(() => {
+    timeLeft--;
+    totalTime++;
+    timePerQ[currentQ]++;
+    updateTimerDisplay();
+    if (timeLeft <= 0) {
+      clearInterval(timerInterval);
+      if (answers[currentQ] === null) {
+        answers[currentQ] = -1; // tidak dijawab
+        tampilHasilJawaban(-1);
+      }
+    }
+  }, 1000);
+}
+
+function updateTimerDisplay() {
+  const el = document.getElementById('timerDisplay');
+  el.textContent = '⏱ ' + timeLeft;
+  el.className = 'quiz-timer' + (timeLeft <= 10 ? ' warning' : '');
+}
+
+/* ── PILIH JAWABAN ── */
+function pilihJawaban(idx) {
+  if (answers[currentQ] !== null) return;
+  clearInterval(timerInterval);
+  answers[currentQ] = idx;
+  tampilHasilJawaban(idx);
+}
+
+function tampilHasilJawaban(idx) {
+  const q = currentQuiz.questions[currentQ];
+  const opts = document.querySelectorAll('.option');
+  opts.forEach(o => o.classList.add('disabled'));
+
+  if (idx === -1) {
+    // timeout — tandai jawaban benar saja
+    document.getElementById('opt' + q.ans).classList.add('correct');
+    document.getElementById('icon' + q.ans).textContent = '✅';
+  } else {
+    if (idx === q.ans) {
+      document.getElementById('opt' + idx).classList.add('correct');
+      document.getElementById('icon' + idx).textContent = '✅';
+    } else {
+      document.getElementById('opt' + idx).classList.add('wrong');
+      document.getElementById('icon' + idx).textContent = '❌';
+      document.getElementById('opt' + q.ans).classList.add('correct');
+      document.getElementById('icon' + q.ans).textContent = '✅';
+    }
+  }
+
+  updateDots();
+  const isLast = currentQ === currentQuiz.questions.length - 1;
+  const btn = document.getElementById('btnNext');
+  btn.disabled = false;
+  btn.textContent = isLast ? 'Lihat Hasil 🏆' : 'Selanjutnya →';
+}
+
+/* ── NEXT ── */
+function nextQuestion() {
+  if (currentQ < currentQuiz.questions.length - 1) {
+    currentQ++;
+    tampilSoal();
+  } else {
+    tampilHasil();
+  }
+}
+
+/* ── DOTS ── */
+function renderDots() {
+  const total = currentQuiz.questions.length;
+  document.getElementById('soalDots').innerHTML = Array.from({length: total}, (_, i) =>
+    `<div class="soal-dot" id="dot${i}"></div>`
+  ).join('');
+}
+
+function updateDots() {
+  currentQuiz.questions.forEach((q, i) => {
+    const dot = document.getElementById('dot' + i);
+    dot.className = 'soal-dot';
+    if (i === currentQ) dot.classList.add('current');
+    if (answers[i] !== null && answers[i] !== -1) {
+      dot.classList.add(answers[i] === q.ans ? 'correct' : 'wrong');
+    } else if (answers[i] === -1) {
+      dot.classList.add('wrong');
+    }
+  });
+}
+
+/* ── HASIL ── */
+function tampilHasil() {
+  clearInterval(timerInterval);
+  document.getElementById('screenQuiz').style.display = 'none';
+  document.getElementById('screenHasil').style.display = 'block';
+
+  const total = currentQuiz.questions.length;
+  const benar = answers.filter((a, i) => a === currentQuiz.questions[i].ans).length;
+  const salah = total - benar;
+  const pct = Math.round((benar / total) * 100);
+  const poin = benar * 10;
+
+  document.getElementById('resultScore').textContent = pct + '%';
+  document.getElementById('statBenar').textContent = benar;
+  document.getElementById('statSalah').textContent = salah;
+  document.getElementById('statWaktu').textContent = totalTime + 's';
+  document.getElementById('statSkor').textContent = poin;
+
+  const scoreEl = document.getElementById('resultScore');
+  if (pct >= 80) {
+    scoreEl.className = 'result-score excellent';
+    document.getElementById('resultEmoji').textContent = '🏆';
+    document.getElementById('resultLabel').textContent = 'Luar Biasa!';
+    document.getElementById('resultSub').textContent = 'Kamu menguasai materi ini dengan sangat baik. Pertahankan!';
+  } else if (pct >= 60) {
+    scoreEl.className = 'result-score good';
+    document.getElementById('resultEmoji').textContent = '👍';
+    document.getElementById('resultLabel').textContent = 'Bagus!';
+    document.getElementById('resultSub').textContent = 'Kamu sudah cukup paham. Sedikit lagi untuk sempurna!';
+  } else {
+    scoreEl.className = 'result-score poor';
+    document.getElementById('resultEmoji').textContent = '📚';
+    document.getElementById('resultLabel').textContent = 'Perlu Belajar Lagi';
+    document.getElementById('resultSub').textContent = 'Jangan menyerah! Pelajari lagi materinya dan coba ulang.';
+  }
+}
+
+/* ── REVIEW ── */
+function lihatReview() {
+  const section = document.getElementById('reviewSection');
+  if (section.style.display === 'block') { section.style.display = 'none'; return; }
+  section.style.display = 'block';
+  const list = document.getElementById('reviewList');
+  list.innerHTML = currentQuiz.questions.map((q, i) => {
+    const userAns = answers[i];
+    const isCorrect = userAns === q.ans;
+    const isTimeout = userAns === -1;
+    return `
+      <div class="review-item ${isCorrect ? 'correct' : 'wrong'}">
+        <div class="review-q">${i+1}. ${q.q}</div>
+        <div class="review-ans" style="color:${isCorrect ? 'var(--green)' : 'var(--red)'}">
+          ${isTimeout ? '⏰ Waktu habis' : (isCorrect ? '✅ ' : '❌ ') + q.opts[userAns]}
+        </div>
+        ${!isCorrect ? `<div class="review-ans" style="color:var(--green)">✅ Jawaban benar: ${q.opts[q.ans]}</div>` : ''}
+      </div>`;
+  }).join('');
+  section.scrollIntoView({ behavior: 'smooth' });
+}
+
+/* ── ULANG ── */
+function ulangQuiz() {
+  document.getElementById('screenHasil').style.display = 'none';
+  document.getElementById('reviewSection').style.display = 'none';
+  mulaiQuiz(currentQuiz.id);
+}
+
+/* ── START ── */
+initQuizList();
+</script>
+</body>
+</html>

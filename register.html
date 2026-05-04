@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daftar – EduFlow</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="login-page">
+
+<div class="login-wrap">
+  <div class="login-box">
+    <div class="login-logo">
+      <span class="logo-text">EduFlow <span>BETA</span></span>
+    </div>
+    <h2>Buat Akun Baru</h2>
+    <p class="login-sub">Bergabung gratis dan mulai belajar hari ini</p>
+
+    <button class="social-btn">
+      <span>🌐</span> Daftar dengan Google
+    </button>
+
+    <div class="login-divider">atau daftar dengan email</div>
+
+    <form onsubmit="doRegister(event)">
+      <div class="form-group">
+        <label for="nama">Nama Lengkap</label>
+        <input type="text" id="nama" placeholder="Nama lengkap kamu" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="nama@email.com" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="Minimal 8 karakter" required minlength="8">
+      </div>
+      <div class="form-group">
+        <label for="konfirmasi">Konfirmasi Password</label>
+        <input type="password" id="konfirmasi" placeholder="Ulangi password" required>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:16px;font-size:13px;color:var(--ink-3)">
+        <input type="checkbox" id="setuju" style="width:auto;margin-top:3px" required>
+        <label for="setuju" style="font-weight:400;margin:0">Saya setuju dengan <a href="#" style="color:var(--blue)">Syarat & Ketentuan</a> dan <a href="#" style="color:var(--blue)">Kebijakan Privasi</a></label>
+      </div>
+      <button type="submit" class="btn">Buat Akun</button>
+    </form>
+
+    <div class="login-footer">
+      Sudah punya akun? <a href="login.html">Masuk sekarang</a>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+<script>
+function doRegister(e) {
+  e.preventDefault();
+  const nama = document.getElementById('nama').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const pass = document.getElementById('password').value;
+  const konfirmasi = document.getElementById('konfirmasi').value;
+  if (pass !== konfirmasi) {
+    showToast('Password tidak cocok!', 'error'); return;
+  }
+  // Simpan sesi langsung setelah daftar
+  sessionStorage.setItem('eduflow_user', JSON.stringify({ email, name: nama }));
+  showToast('Akun berhasil dibuat! Selamat datang 🎉');
+  setTimeout(() => { window.location.href = 'dashboard.html'; }, 1200);
+}
+</script>
+</body>
+</html>

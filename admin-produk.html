@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kelola Produk – EduFlow Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="navbar">
+  <a href="index.html" class="logo">EduFlow <span>ADMIN</span></a>
+  <div class="navbar-right">
+    <div class="avatar">AF</div>
+    <button class="btn-ghost" onclick="doLogout()" style="font-size:13px;color:var(--ink-3)">Keluar</button>
+    <div class="menu-btn" onclick="toggleMenu()">☰</div>
+  </div>
+</header>
+
+<div class="admin-layout">
+
+  <aside class="admin-sidebar">
+    <div class="nav-section">Menu Utama</div>
+    <a href="dashboard.html">🏠 Dashboard</a>
+    <a href="katalog-kursus.html">📚 Katalog Kursus</a>
+    <a href="arsip-artikel.html">📰 Arsip Artikel</a>
+
+    <div class="nav-section">Kelola</div>
+    <a href="admin-artikel.html">✏️ Kelola Artikel</a>
+    <a href="admin-produk.html" class="active">📦 Kelola Produk</a>
+    <a href="admin-pengguna.html">👥 Kelola Pengguna</a>
+    <a href="admin-transaksi.html">💳 Kelola Transaksi</a>
+  </aside>
+
+  <main class="admin-main">
+
+    <div class="flex-between" style="margin-bottom:24px">
+      <div>
+        <h1 style="font-size:22px;font-weight:800">📦 Kelola Produk</h1>
+        <p style="font-size:14px;color:var(--ink-4);margin-top:2px">Tambah, edit, dan hapus kursus</p>
+      </div>
+      <button class="btn" onclick="openModal('modalTambah')">+ Tambah Kursus</button>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-grid" style="grid-template-columns:repeat(4,1fr);margin-bottom:24px">
+      <div class="stat-card">
+        <div class="stat-icon" style="background:var(--blue-mid)">📚</div>
+        <div><div class="stat-num">6</div><div class="stat-label">Total Kursus</div></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background:var(--green-light)">✅</div>
+        <div><div class="stat-num">5</div><div class="stat-label">Aktif</div></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background:#fef3c7">🆓</div>
+        <div><div class="stat-num">2</div><div class="stat-label">Gratis</div></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background:#f3e8ff">👥</div>
+        <div><div class="stat-num">9.9k</div><div class="stat-label">Total Siswa</div></div>
+      </div>
+    </div>
+
+    <!-- SEARCH -->
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="🔍  Cari kursus..." oninput="filterTable()">
+      <select id="filterKat" onchange="filterTable()">
+        <option value="">Semua Kategori</option>
+        <option value="UI/UX">UI/UX</option>
+        <option value="Web Dev">Web Dev</option>
+        <option value="Data Science">Data Science</option>
+        <option value="Mobile Dev">Mobile Dev</option>
+        <option value="Soft Skill">Soft Skill</option>
+      </select>
+      <select id="filterStatus" onchange="filterTable()">
+        <option value="">Semua Status</option>
+        <option value="Aktif">Aktif</option>
+        <option value="Draft">Draft</option>
+      </select>
+    </div>
+
+    <!-- TABLE -->
+    <div class="table-wrap">
+      <table id="produkTable">
+        <thead>
+          <tr>
+            <th>Kursus</th>
+            <th>Kategori</th>
+            <th>Instruktur</th>
+            <th>Harga</th>
+            <th>Siswa</th>
+            <th>Rating</th>
+            <th>Status</th>
+            <th>Aksi</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><div style="display:flex;align-items:center;gap:10px"><span style="font-size:22px">🎨</span><strong style="font-size:13px">UI/UX Design Bootcamp</strong></div></td>
+            <td><span class="badge badge-blue">UI/UX</span></td>
+            <td style="font-size:13px">Rina Kartika</td>
+            <td style="font-size:13px;font-weight:700;color:var(--blue)">Rp 299.000</td>
+            <td style="font-size:13px">1.247</td>
+            <td style="font-size:13px;color:#f59e0b">⭐ 4.8</td>
+            <td><span class="badge badge-green">Aktif</span></td>
+            <td><div style="display:flex;gap:6px">
+              <button class="btn btn-sm" onclick="editProduk(this)">Edit</button>
+              <button class="btn btn-sm btn-danger" onclick="hapusRow(this)">Hapus</button>
+            </div></td>
+          </tr>
+          <tr>
+            <td><div style="display:flex;align-items:center;gap:10px"><span style="font-size:22px">💻</span><strong style="font-size:13px">Full-Stack Web Development</strong></div></td>
+            <td><span class="badge badge-green">Web Dev</span></td>
+            <td style="font-size:13px">Budi Santoso</td>
+            <td style="font-size:13px;font-weight:700;color:var(--blue)">Rp 499.000</td>
+            <td style="font-size:13px">2.400</td>
+            <td style="font-size:13px;color:#f59e0b">⭐ 4.9</td>
+            <td><span class="badge badge-green">Aktif</span></td>
+            <td><div style="display:flex;gap:6px">
+              <button class="btn btn-sm" onclick="editProduk(this)">Edit</button>
+              <button class="btn btn-sm btn-danger" onclick="hapusRow(this)">Hapus</button>
+            </div></td>
+          </tr>
+          <tr>
+            <td><div style="display:flex;align-items:center;gap:10px"><span style="font-size:22px">📊</span><strong style="font-size:13px">Python untuk Data Science</strong></div></td>
+            <td><span class="badge badge-yellow">Data Science</span></td>
+            <td style="font-size:13px">Dita Pramesti</td>
+            <td style="font-size:13px;font-weight:700;color:var(--green)">GRATIS</td>
+            <td style="font-size:13px">3.100</td>
+            <td style="font-size:13px;color:#f59e0b">⭐ 4.7</td>
+            <td><span class="badge badge-green">Aktif</span></td>
+            <td><div style="display:flex;gap:6px">
+              <button class="btn btn-sm" onclick="editProduk(this)">Edit</button>
+              <button class="btn btn-sm btn-danger" onclick="hapusRow(this)">Hapus</button>
+            </div></td>
+          </tr>
+          <tr>
+            <td><div style="display:flex;align-items:center;gap:10px"><span style="font-size:22px">📱</span><strong style="font-size:13px">Flutter & Dart</strong></div></td>
+            <td><span class="badge badge-purple">Mobile Dev</span></td>
+            <td style="font-size:13px">Hendra Gunawan</td>
+            <td style="font-size:13px;font-weight:700;color:var(--blue)">Rp 399.000</td>
+            <td style="font-size:13px">890</td>
+            <td style="font-size:13px;color:#f59e0b">⭐ 4.6</td>
+            <td><span class="badge badge-green">Aktif</span></td>
+            <td><div style="display:flex;gap:6px">
+              <button class="btn btn-sm" onclick="editProduk(this)">Edit</button>
+              <button class="btn btn-sm btn-danger" onclick="hapusRow(this)">Hapus</button>
+            </div></td>
+          </tr>
+          <tr>
+            <td><div style="display:flex;align-items:center;gap:10px"><span style="font-size:22px">🧠</span><strong style="font-size:13px">Public Speaking & Presentasi</strong></div></td>
+            <td><span class="badge badge-purple">Soft Skill</span></td>
+            <td style="font-size:13px">Sinta Dewi</td>
+            <td style="font-size:13px;font-weight:700;color:var(--green)">GRATIS</td>
+            <td style="font-size:13px">560</td>
+            <td style="font-size:13px;color:#f59e0b">⭐ 4.5</td>
+            <td><span class="badge badge-green">Aktif</span></td>
+            <td><div style="display:flex;gap:6px">
+              <button class="btn btn-sm" onclick="editProduk(this)">Edit</button>
+              <button class="btn btn-sm btn-danger" onclick="hapusRow(this)">Hapus</button>
+            </div></td>
+          </tr>
+          <tr>
+            <td><div style="display:flex;align-items:center;gap:10px"><span style="font-size:22px">🚀</span><strong style="font-size:13px">Laravel & MySQL</strong></div></td>
+            <td><span class="badge badge-blue">Web Dev</span></td>
+            <td style="font-size:13px">Fajar Nugraha</td>
+            <td style="font-size:13px;font-weight:700;color:var(--blue)">Rp 349.000</td>
+            <td style="font-size:13px">1.700</td>
+            <td style="font-size:13px;color:#f59e0b">⭐ 4.8</td>
+            <td><span class="badge badge-gray">Draft</span></td>
+            <td><div style="display:flex;gap:6px">
+              <button class="btn btn-sm" onclick="editProduk(this)">Edit</button>
+              <button class="btn btn-sm btn-danger" onclick="hapusRow(this)">Hapus</button>
+            </div></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="pagination">
+      <a href="#" class="active">1</a><a href="#">2</a><a href="#">›</a>
+    </div>
+
+  </main>
+</div>
+
+<!-- MODAL TAMBAH / EDIT -->
+<div class="modal-overlay" id="modalTambah">
+  <div class="modal" style="max-width:560px">
+    <h3 id="modalTitle">➕ Tambah Kursus Baru</h3>
+    <div class="form-group">
+      <label>Nama Kursus</label>
+      <input type="text" id="inputNama" placeholder="Masukkan nama kursus...">
+    </div>
+    <div class="grid-2">
+      <div class="form-group">
+        <label>Kategori</label>
+        <select id="inputKat">
+          <option>UI/UX</option>
+          <option>Web Dev</option>
+          <option>Data Science</option>
+          <option>Mobile Dev</option>
+          <option>Soft Skill</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Status</label>
+        <select id="inputStatus">
+          <option>Aktif</option>
+          <option>Draft</option>
+        </select>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="form-group">
+        <label>Instruktur</label>
+        <input type="text" id="inputInstruktur" placeholder="Nama instruktur">
+      </div>
+      <div class="form-group">
+        <label>Harga (0 = Gratis)</label>
+        <input type="number" id="inputHarga" placeholder="299000" min="0">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Deskripsi Singkat</label>
+      <textarea id="inputDesc" rows="3" placeholder="Deskripsi kursus..."></textarea>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-outline-gray" onclick="closeModal('modalTambah')">Batal</button>
+      <button class="btn" onclick="simpanProduk()">Simpan</button>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+<script>
+let editRow = null;
+
+function filterTable() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  const kat = document.getElementById('filterKat').value;
+  const status = document.getElementById('filterStatus').value;
+  document.querySelectorAll('#produkTable tbody tr').forEach(tr => {
+    const nama = tr.cells[0].textContent.toLowerCase();
+    const k = tr.cells[1].textContent.trim();
+    const s = tr.cells[6].textContent.trim();
+    tr.style.display = (nama.includes(q) && (!kat || k.includes(kat)) && (!status || s.includes(status))) ? '' : 'none';
+  });
+}
+
+function editProduk(btn) {
+  editRow = btn.closest('tr');
+  const cells = editRow.cells;
+  document.getElementById('modalTitle').textContent = '✏️ Edit Kursus';
+  document.getElementById('inputNama').value = cells[0].querySelector('strong').textContent;
+  document.getElementById('inputKat').value = cells[1].textContent.trim();
+  document.getElementById('inputInstruktur').value = cells[2].textContent.trim();
+  document.getElementById('inputStatus').value = cells[6].textContent.trim();
+  openModal('modalTambah');
+}
+
+function simpanProduk() {
+  const nama = document.getElementById('inputNama').value.trim();
+  const kat = document.getElementById('inputKat').value;
+  const instruktur = document.getElementById('inputInstruktur').value.trim();
+  const harga = parseInt(document.getElementById('inputHarga').value) || 0;
+  const status = document.getElementById('inputStatus').value;
+  if (!nama) { showToast('Nama kursus tidak boleh kosong', 'error'); return; }
+
+  const katBadge = { 'UI/UX':'badge-blue','Web Dev':'badge-green','Data Science':'badge-yellow','Mobile Dev':'badge-purple','Soft Skill':'badge-purple' };
+  const statusBadge = status === 'Aktif' ? 'badge-green' : 'badge-gray';
+  const hargaStr = harga === 0 ? `<span style="color:var(--green);font-weight:700">GRATIS</span>` : `<span style="color:var(--blue);font-weight:700">Rp ${harga.toLocaleString('id-ID')}</span>`;
+
+  if (editRow) {
+    editRow.cells[0].querySelector('strong').textContent = nama;
+    editRow.cells[1].innerHTML = `<span class="badge ${katBadge[kat]||'badge-gray'}">${kat}</span>`;
+    editRow.cells[2].textContent = instruktur;
+    editRow.cells[3].innerHTML = hargaStr;
+    editRow.cells[6].innerHTML = `<span class="badge ${statusBadge}">${status}</span>`;
+    editRow = null;
+    showToast('Kursus berhasil diperbarui');
+  } else {
+    const tbody = document.querySelector('#produkTable tbody');
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><div style="display:flex;align-items:center;gap:10px"><span style="font-size:22px">📚</span><strong style="font-size:13px">${nama}</strong></div></td>
+      <td><span class="badge ${katBadge[kat]||'badge-gray'}">${kat}</span></td>
+      <td style="font-size:13px">${instruktur}</td>
+      <td style="font-size:13px">${hargaStr}</td>
+      <td style="font-size:13px">0</td>
+      <td style="font-size:13px;color:#f59e0b">⭐ –</td>
+      <td><span class="badge ${statusBadge}">${status}</span></td>
+      <td><div style="display:flex;gap:6px">
+        <button class="btn btn-sm" onclick="editProduk(this)">Edit</button>
+        <button class="btn btn-sm btn-danger" onclick="hapusRow(this)">Hapus</button>
+      </div></td>`;
+    tbody.prepend(tr);
+    showToast('Kursus berhasil ditambahkan');
+  }
+
+  document.getElementById('inputNama').value = '';
+  document.getElementById('inputInstruktur').value = '';
+  document.getElementById('inputHarga').value = '';
+  document.getElementById('inputDesc').value = '';
+  document.getElementById('modalTitle').textContent = '➕ Tambah Kursus Baru';
+  closeModal('modalTambah');
+}
+
+function hapusRow(btn) {
+  if (!confirm('Hapus kursus ini?')) return;
+  btn.closest('tr').remove();
+  showToast('Kursus dihapus', 'error');
+}
+</script>
+</body>
+</html>

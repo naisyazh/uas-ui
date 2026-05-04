@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sertifikat Saya – EduFlow</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .cert-card {
+      background: var(--surface); border-radius: var(--radius-lg);
+      box-shadow: var(--shadow); overflow: hidden; transition: .25s;
+    }
+    .cert-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-3px); }
+    .cert-banner {
+      height: 140px; display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+    .cert-banner::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(37,99,235,.15) 0%, transparent 60%);
+    }
+    .cert-banner-icon { font-size: 56px; position: relative; z-index: 1; }
+    .cert-body { padding: 20px; }
+    .cert-body h3 { font-size: 15px; font-weight: 700; margin-bottom: 6px; line-height: 1.4; }
+    .cert-meta { font-size: 12px; color: var(--ink-4); margin-bottom: 14px; }
+    .cert-id { font-size: 11px; font-family: monospace; background: var(--bg-2); padding: 4px 10px; border-radius: 6px; color: var(--ink-3); display: inline-block; margin-bottom: 14px; }
+    .cert-footer { padding: 14px 20px; border-top: 1px solid var(--line); display: flex; gap: 8px; }
+
+    /* Preview modal */
+    .cert-preview {
+      background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 50%, #2563eb 100%);
+      border-radius: var(--radius-lg); padding: 48px 40px; text-align: center; color: #fff;
+      position: relative; overflow: hidden;
+    }
+    .cert-preview::before {
+      content: ''; position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    .cert-preview .logo-cert { font-family: var(--serif); font-size: 28px; font-style: italic; margin-bottom: 24px; opacity: .9; }
+    .cert-preview h2 { font-size: 14px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; opacity: .7; margin-bottom: 8px; }
+    .cert-preview .penerima { font-family: var(--serif); font-size: 32px; font-style: italic; margin: 12px 0; }
+    .cert-preview .kursus-nama { font-size: 18px; font-weight: 700; margin: 16px 0 8px; }
+    .cert-preview .tanggal { font-size: 13px; opacity: .7; margin-top: 24px; }
+    .cert-preview .seal { font-size: 48px; margin: 20px 0 8px; }
+  </style>
+</head>
+<body>
+
+<header class="navbar">
+  <a href="index.html" class="logo">EduFlow <span>BETA</span></a>
+  <nav class="main-nav" id="menu">
+    <a href="index.html">Beranda</a>
+    <a href="katalog-kursus.html">Kursus</a>
+    <a href="arsip-artikel.html">Artikel</a>
+  </nav>
+  <div class="navbar-right">
+    <a href="dashboard.html" class="btn-outline">Dashboard</a>
+    <div class="avatar" onclick="window.location.href='profil.html'" style="cursor:pointer">AF</div>
+    <button class="btn-ghost" onclick="doLogout()" style="font-size:13px;color:var(--ink-3)">Keluar</button>
+    <div class="menu-btn" onclick="toggleMenu()">☰</div>
+  </div>
+</header>
+
+<div class="page-header">
+  <div class="breadcrumb"><a href="index.html">Beranda</a> › <a href="dashboard.html">Dashboard</a> › Sertifikat</div>
+  <h1>🏆 Sertifikat Saya</h1>
+  <p>Koleksi sertifikat penyelesaian kursus kamu</p>
+</div>
+
+<div class="page-body">
+
+  <!-- STATS -->
+  <div class="stats-grid" style="grid-template-columns:repeat(3,1fr);margin-bottom:28px">
+    <div class="stat-card">
+      <div class="stat-icon" style="background:#fef3c7">🏆</div>
+      <div><div class="stat-num">3</div><div class="stat-label">Total Sertifikat</div></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon" style="background:var(--green-light)">✅</div>
+      <div><div class="stat-num">3</div><div class="stat-label">Terverifikasi</div></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon" style="background:var(--blue-mid)">📅</div>
+      <div><div class="stat-num">Apr 2025</div><div class="stat-label">Terbaru</div></div>
+    </div>
+  </div>
+
+  <!-- GRID SERTIFIKAT -->
+  <div class="grid-3">
+
+    <div class="cert-card">
+      <div class="cert-banner" style="background:linear-gradient(135deg,#dbeafe,#93c5fd)">
+        <div class="cert-banner-icon">🎨</div>
+      </div>
+      <div class="cert-body">
+        <span class="badge badge-green" style="margin-bottom:10px">✅ Terverifikasi</span>
+        <h3>UI/UX Design Bootcamp: Dari Nol ke Pro</h3>
+        <p class="cert-meta">👩‍🏫 Rina Kartika &nbsp;·&nbsp; 📅 Selesai 12 Apr 2025</p>
+        <span class="cert-id">CERT-EDUFLOW-2025-0412</span>
+      </div>
+      <div class="cert-footer">
+        <button class="btn btn-sm" onclick="previewSertifikat('UI/UX Design Bootcamp','12 April 2025','CERT-EDUFLOW-2025-0412')">👁️ Lihat</button>
+        <button class="btn btn-sm btn-outline" onclick="showToast('Mengunduh sertifikat...')">⬇️ Unduh</button>
+        <button class="btn btn-sm btn-outline-gray" onclick="showToast('Link disalin!')">🔗 Bagikan</button>
+      </div>
+    </div>
+
+    <div class="cert-card">
+      <div class="cert-banner" style="background:linear-gradient(135deg,#fef3c7,#fcd34d)">
+        <div class="cert-banner-icon">📊</div>
+      </div>
+      <div class="cert-body">
+        <span class="badge badge-green" style="margin-bottom:10px">✅ Terverifikasi</span>
+        <h3>Python untuk Data Science: Panduan Lengkap</h3>
+        <p class="cert-meta">👩‍🏫 Dita Pramesti &nbsp;·&nbsp; 📅 Selesai 22 Mar 2025</p>
+        <span class="cert-id">CERT-EDUFLOW-2025-0322</span>
+      </div>
+      <div class="cert-footer">
+        <button class="btn btn-sm" onclick="previewSertifikat('Python untuk Data Science','22 Maret 2025','CERT-EDUFLOW-2025-0322')">👁️ Lihat</button>
+        <button class="btn btn-sm btn-outline" onclick="showToast('Mengunduh sertifikat...')">⬇️ Unduh</button>
+        <button class="btn btn-sm btn-outline-gray" onclick="showToast('Link disalin!')">🔗 Bagikan</button>
+      </div>
+    </div>
+
+    <div class="cert-card">
+      <div class="cert-banner" style="background:linear-gradient(135deg,#d1fae5,#6ee7b7)">
+        <div class="cert-banner-icon">💻</div>
+      </div>
+      <div class="cert-body">
+        <span class="badge badge-green" style="margin-bottom:10px">✅ Terverifikasi</span>
+        <h3>Full-Stack Web Development React & Node.js</h3>
+        <p class="cert-meta">👨‍🏫 Budi Santoso &nbsp;·&nbsp; 📅 Selesai 5 Feb 2025</p>
+        <span class="cert-id">CERT-EDUFLOW-2025-0205</span>
+      </div>
+      <div class="cert-footer">
+        <button class="btn btn-sm" onclick="previewSertifikat('Full-Stack Web Development','5 Februari 2025','CERT-EDUFLOW-2025-0205')">👁️ Lihat</button>
+        <button class="btn btn-sm btn-outline" onclick="showToast('Mengunduh sertifikat...')">⬇️ Unduh</button>
+        <button class="btn btn-sm btn-outline-gray" onclick="showToast('Link disalin!')">🔗 Bagikan</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- CTA kursus baru -->
+  <div style="margin-top:36px;background:linear-gradient(135deg,var(--blue),#4f46e5);border-radius:var(--radius-lg);padding:32px;text-align:center;color:#fff">
+    <h3 style="font-size:20px;font-weight:800;margin-bottom:8px">Tambah Sertifikat Baru</h3>
+    <p style="opacity:.85;margin-bottom:20px">Selesaikan lebih banyak kursus dan perkuat portofoliomu</p>
+    <a href="katalog-kursus.html" class="btn" style="background:#fff;color:var(--blue)">📚 Jelajahi Kursus</a>
+  </div>
+
+</div>
+
+<!-- MODAL PREVIEW SERTIFIKAT -->
+<div class="modal-overlay" id="modalPreview">
+  <div class="modal" style="max-width:560px;padding:0;background:transparent;box-shadow:none">
+    <div class="cert-preview">
+      <div class="logo-cert">EduFlow</div>
+      <h2>Sertifikat Penyelesaian</h2>
+      <p style="opacity:.7;font-size:14px">Dengan bangga diberikan kepada</p>
+      <div class="penerima">Ahmad Fauzi</div>
+      <p style="opacity:.7;font-size:14px">atas keberhasilan menyelesaikan kursus</p>
+      <div class="kursus-nama" id="previewNama">–</div>
+      <div class="seal">🏆</div>
+      <div class="cert-id" style="background:rgba(255,255,255,.15);color:#fff" id="previewId">–</div>
+      <div class="tanggal" id="previewTanggal">–</div>
+    </div>
+    <div style="display:flex;gap:10px;justify-content:center;margin-top:16px">
+      <button class="btn" onclick="showToast('Mengunduh sertifikat...');closeModal('modalPreview')">⬇️ Unduh PDF</button>
+      <button class="btn-outline-gray" onclick="closeModal('modalPreview')" style="background:var(--surface)">Tutup</button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div><a href="index.html" class="logo" style="color:#fff;margin-bottom:10px;display:inline-flex">EduFlow</a><p>Platform belajar online terpercaya.</p></div>
+    <div><h3>Produk</h3><a href="katalog-kursus.html">Katalog Kursus</a><a href="arsip-artikel.html">Artikel</a></div>
+    <div><h3>Perusahaan</h3><a href="#">Tentang Kami</a></div>
+    <div><h3>Dukungan</h3><a href="#">FAQ</a></div>
+  </div>
+  <p class="copy">© 2025 EduFlow. All rights reserved.</p>
+</footer>
+
+<script src="script.js"></script>
+<script>
+function previewSertifikat(nama, tanggal, id) {
+  document.getElementById('previewNama').textContent = nama;
+  document.getElementById('previewTanggal').textContent = '📅 Diterbitkan ' + tanggal;
+  document.getElementById('previewId').textContent = id;
+  openModal('modalPreview');
+}
+</script>
+</body>
+</html>
